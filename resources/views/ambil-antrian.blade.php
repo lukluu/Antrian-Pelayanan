@@ -12,14 +12,14 @@
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
                     </ol>
                 </nav>
-                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <!-- <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
                             <span class="input-group-text text-body" type="submit" role="button"><i class="fas fa-search" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="search" placeholder="Search..">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </nav>
         <a href="/" class="mx-4 btn btn-secondary mt-2">Kembali</a>

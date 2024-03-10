@@ -49,7 +49,6 @@ class AntrianController extends Controller
 
         $outlets = Outlet::with('instansi')->where('instansi_id', $id)->get();
 
-        // Check if any outlets were found for the given institution
         if ($outlets->isEmpty()) {
             return back()->with('info', 'Maaf, Belum Ada Layanan.');
         }
@@ -57,6 +56,7 @@ class AntrianController extends Controller
         // Retrieve the kode and name of the institution
         $kodeInstansi = $outlets->first()->instansi->kode;
         $instansi = $outlets->first()->instansi->name;
+        $sektor = $outlets->first()->instansi->sektor;
 
         // Menghitung jumlah antrian untuk kode instansi yang dipilih
         $jumlahAntrian = Antrian::whereHas('outlet', function ($query) use ($kodeInstansi) {
@@ -76,6 +76,7 @@ class AntrianController extends Controller
             "pelayanans" => $outlets,
             'instansi' => $instansi,
             "nomor" => $nomorAntrian,
+            "sektor" => $sektor,
         ]);
     }
 
@@ -85,19 +86,15 @@ class AntrianController extends Controller
         $validatedData = $request->validate([
             "outlet_id" => "required",
             "no_antri" => "required",
-            "nik" => "required",
             "status" => "required",
-            "nama" => "required",
-            "no_hp" => "required",
-            "gender" => "required",
-            "pekerjaan" => "required",
-            "alamat" => "required",
-            "kelurahan" => "required",
-            "kecamatan" => "required",
         ]);
 
         Antrian::create($validatedData);
-
-        return back()->with('success', 'Berhasil Mengambil antrian');
+        $antrianBaru = Antrian::latest()->first();
+        $nomorAntrian = $antrianBaru->no_antri;
+        Alert::success('Nomor Antrian Anda: ' . '<h1>' . $nomorAntrian . '</h1>')
+            ->autoClose(20000);
+        return back();
+        // return back()->with('success', 'Nomor Antrian Anda ' . '<h1>' . $nomorAntrian . '</h1>');
     }
 }

@@ -9,15 +9,53 @@
         /* Atur tinggi card sesuai kebutuhan */
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 700px) {
         .custom-card {
             height: auto;
             /* Mengatur tinggi card menjadi otomatis */
         }
     }
 
-    .page-link {
-        color: black;
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        top: calc(100% + 5px);
+        margin-top: 0;
+        /* Sesuaikan jarak vertikal antara tombol profil dan dropdown */
+        min-width: 150px;
+        /* Sesuaikan lebar minimum dropdown */
+    }
+
+    .dropdown-menu.show {
+        display: block;
+    }
+
+    .nav-link {
+        cursor: pointer;
+        /* Menjadikan pointer ketika dihover untuk menandakan klik */
+    }
+
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+
+    .profile-icon {
+        display: inline-block;
+        width: 32px;
+        /* Sesuaikan ukuran ikon sesuai kebutuhan */
+        height: 32px;
+        /* Sesuaikan ukuran ikon sesuai kebutuhan */
+        border-radius: 50%;
+        /* Membuat ikon berbentuk lingkaran */
+        background-color: #ccc;
+        /* Warna latar belakang ikon */
+        background-image: url('/assets2/assets/images/faces/1.jpg');
+        /* URL gambar profil */
+        background-size: cover;
+        /* Mengisi area ikon tanpa merubah proporsi */
     }
 </style>
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
@@ -33,9 +71,9 @@
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid">
-                        <a class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 " href="../pages/dashboard.html">
-                            STAF {{ strtoupper(auth()->user()->username) }}
-                        </a>
+                        <div class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 ">
+                            STAF {{ $instansi }}
+                        </div>
                         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon mt-2">
                                 <span class="navbar-toggler-bar bar1"></span>
@@ -56,16 +94,27 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/isi-survei">
+                                    <a class="nav-link me-2" href="/user/dashboard/survei-pengunjung">
                                         Survei Pengunjung
                                     </a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav d-lg-block align-content-center">
-                                <form action="/logout" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-primary btn-sm w-100 mb-3">LogOut</button>
-                                </form>
+                                <li class="nav-item dropdown">
+                                    <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="profile-icon"></span>
+                                    </div>
+
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
+                                        <li>
+                                            <form action="/logout" method="post">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -87,69 +136,46 @@
                         <div class="card-header pb-0">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-auto">
-                                    <a href="/user/dashboard" class="btn btn-primary btn-sm">Kembali</a>
-                                </div>
-                                <div class="col-auto">
-                                    <small class="badge bg-primary">{{ $nama_layanan }}</small>
+                                    <a href="/user/dashboard" class="btn btn-danger btn-sm">Kembali</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Nama</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $nama }}">
+
+                        <form action="/user/dashboard/data-melayani/{{$id}}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <p class="col-sm-4 col-form-label">Keterangan</p>
+                                    <div class="col-sm-8">
+                                        <small class="col-form-label text-center">: {{ $nama_layanan }}</small>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <p class="col-sm-4 col-form-label">Nomor Antrian</p>
+                                    <div class="col-sm-8">
+                                        <small class="col-form-label text-center">: {{ $nomor_antrian }}</small>
+                                    </div>
+                                </div>
+                                <hr class="horizontal dark">
+                                <p class="text-center">Isi Data Pengunjung</p>
+                                <div class="row mb-3">
+                                    <p class="col-sm-4 col-form-label">Nama</p>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="nama" value="{{$nama}}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <p class="col-sm-4 col-form-label">NIK</p>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="nik" value="{{$nik}}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">NIK</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $nik }}">
-                                </div>
+                            <div class="text-center mb-3">
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
                             </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Taggal Lahir</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $tanggal_lahir }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Jenis Kelamin</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $gender }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Pekerjaan</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $pekerjaan }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Handphone</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $no_hp }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Alamat</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $alamat }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Keluahan</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $kelurahan }}">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <p class="col-sm-4 col-form-label">Kecamatan</p>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" disabled value="{{ $kecamatan }}">
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

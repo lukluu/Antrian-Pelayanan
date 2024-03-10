@@ -57,7 +57,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'username' => 'required|max:255|unique:users',
-            'password' => 'required',
+            'password' => 'min:5',
             'role' => 'required',
         ]);
         $validatedData['password'] = bcrypt($validatedData['password']);

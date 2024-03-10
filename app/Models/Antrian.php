@@ -13,4 +13,9 @@ class Antrian extends Model
     {
         return $this->belongsTo(Outlet::class);
     }
+    // relasi antrian - survei
+    public function survei()
+    {
+        return $this->hasMany(Survei::class);
+    }
 }

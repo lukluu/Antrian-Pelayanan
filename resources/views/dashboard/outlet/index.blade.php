@@ -41,14 +41,16 @@
                                     @else
                                     <td></td>
                                     @endif
-                                    <td>
-                                        <a href="/dashboard/data-instansi/edit/{{ $instansi->id }}" class="badge bg-warning mb-2">Edit Instansi</a>
-                                        <a href="/dashboard/data-instansi/detail/{{ $instansi->id }}" class="badge bg-success">Detail Pelayanan</a>
+                                    <td class="d-flex justify-content-between">
+                                        <a href="/dashboard/data-instansi/edit/{{ $instansi->id }}" class="badge bg-warning">
+                                            <i class="bi bi-pencil-square text-black"></i>
+                                        </a>
                                         <form id="hapus-instansi-{{ $instansi->id }}" action="{{ route('dashboard.data-instansi.delete', $instansi->id) }}" method="POST" class="border-0">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" onclick="confirmSave('{{ $instansi->name }}', '{{ $instansi->id }}')" class="badge bg-danger border-0">Hapus</button>
+                                            <button type="button" onclick="confirmSave('{{ $instansi->name }}', '{{ $instansi->id }}')" class="badge bg-danger border-0"><i class="bi bi-trash3-fill color-danger"></i></button>
                                         </form>
+                                        <a href="/dashboard/data-instansi/detail/{{ $instansi->id }}" class="badge bg-success">Detail</a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -7,9 +7,12 @@ use \App\Models\Post;
 use \App\Models\User;
 use App\Models\Outlet;
 use App\Models\People;
+use App\Models\Survei;
+use App\Models\Syarat;
 use App\Models\Antrian;
 use App\Models\Instansi;
 use \App\Models\Category;
+use App\Models\Pertanyaan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -52,41 +55,78 @@ class DatabaseSeeder extends Seeder
             'name' => 'SAMSAT',
             'nama_kepanjangan' => 'Sistem Administrasi Menunggal Satu Atap',
             'kode' => 'A',
+            'sektor' => '1',
             'user_id' => 2
         ]);
         Instansi::create([
             'name' => 'PTSP',
             'nama_kepanjangan' => 'Pelayanan Terpadu Satu Pintu',
             'kode' => 'B',
+            'sektor' => '2',
             'user_id' => 3
         ]);
 
         Outlet::create([
             'nama_layanan' => "Bayar Bajak",
-            'instansi_id' => 1
+            'instansi_id' => 1,
+            'syarat1' => 'KTP',
+            'syarat2' => 'Surat Pengantar'
         ]);
         Outlet::create([
             'nama_layanan' => "Permohonan Kerja",
             'instansi_id' => 2,
+            'syarat1' => 'KTP',
+            'syarat2' => 'Surat Pengantar'
 
         ]);
         Outlet::create([
             'nama_layanan' => "Registrasi Kendaraan",
             'instansi_id' => 1,
+            'syarat1' => 'KTP',
+            'syarat2' => 'Surat Pengantar'
         ]);
         Antrian::create([
             'outlet_id' => 1,
             'no_antri' => 'A-1',
-            'nama' => "Lukmana",
-            'nik' => 123,
-            'no_hp' => 12345,
-            'ttl' => '12/12/2002',
-            'gender' => "Pria",
-            'alamat' => "Kambu",
-            'kelurahan' => 'Jl.Tekukur',
-            'Kecamatan' => 'Kambu',
-            'pekerjaan' => "Mahasiswa",
             'status' => 0,
+            'survei' => 0,
+        ]);
+
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 1',
+            'unsur' => 'Kesesuaian Pelayanan'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 2',
+            'unsur' => 'Kemudahan Pelayanan'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 3',
+            'unsur' => 'Kecepatan Pelayanan'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 4',
+            'unsur' => 'Kewajaran Biaya'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 5',
+            'unsur' => 'Kesesuaian Produk'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 6',
+            'unsur' => 'Kemampuan Petugas'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 7',
+            'unsur' => 'Perilaku Petugas'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 8',
+            'unsur' => 'Kualitas Sarana dan Prasarana'
+        ]);
+        Pertanyaan::create([
+            'pertanyaan' => 'pertanyaan 9',
+            'unsur' => 'Penanganan Pengaduan'
         ]);
     }
 }

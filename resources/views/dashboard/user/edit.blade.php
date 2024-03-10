@@ -21,9 +21,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header pb-0">
-                <div class="d-flex align-items-center">
-                    <p class="mb-0">Tambah Outlet</p>
-                </div>
+                <a href="/dashboard/data-user" class="mb-0 badge btn-danger hover-none">Kembali</a>
             </div>
             <form method="POST" action="{{ route('dashboard.data-user.edit', $user->id) }}">
                 @csrf
@@ -93,20 +91,21 @@
 
         </div>
     </div>
-    <script>
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            var passwordInput = document.getElementById('example-password-input');
-            var passwordIcon = document.querySelector('#togglePassword i');
+</div>
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        var passwordInput = document.getElementById('example-password-input');
+        var passwordIcon = document.querySelector('#togglePassword i');
 
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordIcon.classList.remove('fa-eye');
-                passwordIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                passwordIcon.classList.remove('fa-eye-slash');
-                passwordIcon.classList.add('fa-eye');
-            }
-        });
-    </script>
-    @endsection
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordIcon.classList.remove('fa-eye');
+            passwordIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            passwordIcon.classList.remove('fa-eye-slash');
+            passwordIcon.classList.add('fa-eye');
+        }
+    });
+</script>
+@endsection

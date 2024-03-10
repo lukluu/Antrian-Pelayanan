@@ -1,5 +1,10 @@
 @include('layouts.head')
 
+<!-- <style>
+    .swal2-cancel {
+        display: none !important;
+    }
+</style> -->
 
 <body class="g-sidenav-show bg-primary">
     <!-- <div class="min-height-300 bg-primary position-absolute w-100"></div> -->
@@ -12,14 +17,14 @@
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ $title }}</li>
                     </ol>
                 </nav>
-                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <!-- <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                         <div class="input-group">
                             <span class="input-group-text text-body" type="submit" role="button"><i class="fas fa-search" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="search" placeholder="Search..">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </nav>
         <a href="/ambil-antrian" class="mx-4 btn btn-secondary mt-2">Kembali</a>
@@ -55,93 +60,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade text-left" id="modal{{ $pelayanan->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel{{ $pelayanan->id }}" aria-hidden="true">
+                <div class="modal fade text-left tutupModal" id="modal{{ $pelayanan->id }}" tabindex="-1" role="dialog" data-bs-backdrop="false" aria-labelledby="myModalLabel{{ $pelayanan->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <h4 class="text-white modal-title " id="myModalLabel110">
-                                    Antrian {{ $nomor }} {{ $pelayanan->nama_layanan }}
-                                </h4>
+                            <div class="modal-header bg-success">
+                                <p class="text-white modal-title text-center h3">
+                                    {{ $pelayanan->nama_layanan }}
+                                </p>
+                                <small class="text-white badge">
+                                    Sektor {{ $sektor }}
+                                </small>
                             </div>
 
                             <div class="modal-body ">
-                                <form id="myForm" action="/submit-antrian" method="post">
+                                <label class="text-sm">Silahkan Siapkan Syarat Pelayanan, Pastikan Anda Memiliki</label>
+                                <ol>
+                                    <li><small class="badge bg-secondary"> {{ $pelayanan->syarat1 }}</small></li>
+                                    <li><small class="badge bg-secondary"> {{ $pelayanan->syarat2 }}</small></li>
+                                </ol>
+                                <hr class="horizontal dark">
+
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-warning btn-sm formLanjut" id="formLanjut{{ $pelayanan->id }}">Lanjut Ambil Antrian</button>
+                                </div>
+                                <form style="display: none;" id="myForm{{ $pelayanan->id }}" action="/submit-antrian" method="post">
                                     @csrf
                                     <input class="form-control" type="hidden" name="outlet_id" value="{{ $pelayanan->id }}">
                                     <input class=" form-control" type="hidden" name="no_antri" value="{{ $nomor }}">
                                     <input class="form-control" type="hidden" name="status" value="0">
-                                    <div class="card-body">
-                                        <p class="text-sm">Silahkan Isi Data Diri Terlebih Dahulu</p>
-                                        <hr class="horizontal dark">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="nama" class="form-control-label">Nama Lengkap</label>
-                                                    <input class="form-control @error('nama')is-invalid @enderror" value="{{ old('nama') }}" type="text" name="nama" id="nama" required>
-
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="nama" class="form-control-label">NIK</label>
-                                                    <input class="form-control @error('nik')is-invalid @enderror" value="{{ old('nik') }}" type="number" name="nik" id="nik" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="no_hp" class="form-control-label">No HP</label>
-                                                    <input value="{{ old('no_hp') }}" class="form-control @error('no_hp')is-invalid @enderror" type="number" name="no_hp" id="no_hp" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="gender" class="form-control-label">Gender</label>
-                                                    <select class="form-control @error('gender')is-invalid @enderror" id="gender" name="gender" required>
-                                                        <option>--</option>
-                                                        <option value="laki-laki">Laki-laki</option>
-                                                        <option value="perempuan">Perempuan</option>
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="pekerjaan" class="form-control-label">Pekerjaan</label>
-                                                    <input value="{{ old('pekerjaan') }}" class="form-control @error('pekerjaan')is-invalid @enderror" id="pekerjaan" type="text" name="pekerjaan" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="alamat" class="form-control-label">Alamat</label>
-                                                    <input value="{{ old('alamat') }}" id="alamat" class="form-control @error('alamat')is-invalid @enderror" type="text" name="alamat" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="kelurahan" class="form-control-label">Kelurahan/Desa</label>
-                                                    <input value="{{ old('kelurahan') }}" id="kelurahan" class="form-control @error('kelurahan')is-invalid @enderror" type="text" name="kelurahan" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="kecamatan" class="form-control-label">Kecamatan</label>
-                                                    <input class="form-control @error('kecamatan')is-invalid @enderror" value="{{ old('kecamatan') }}" id="kecamatan" type="text" name="kecamatan" required>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary col-12 mt-4">
+                                    <button type="submit" class="btn btn-success btn-xl col-12 mt-4 py-4" onclick="ambilAntrian()">
                                         <i class="bx bx-check d-block"></i>
-                                        <span class="d-sm-block">Ambil Antrian</span>
+                                        <span class="d-sm-block h3 text-white">Ambil Antrian</span>
                                     </button>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">
                                     <i class="bx bx-x d-block"></i>
                                     <span class="d-none d-sm-block">Close</span>
                                 </button>
@@ -157,5 +111,30 @@
 
     @include('sweetalert::alert')
     @include('layouts.scripts')
+
+    <script>
+        function ambilAntrian() {
+            Swal.fire({
+                timer: 5000 // Tampilkan selama 3 detik
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var buttons = document.querySelectorAll(".formLanjut");
+            buttons.forEach(function(button) {
+                button.addEventListener("click", function() {
+                    var pelayananId = button.id.replace("formLanjut", "");
+                    var form = document.getElementById("myForm" + pelayananId);
+
+                    form.style.display = "block"; // Menampilkan elemen form
+                    button.style.display = "none"; // Menyembunyikan tombol "Lanjut Ambil Antrian"
+                });
+            });
+
+            var closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function() {
+                location.reload();
+            });
+        });
+    </script>
 
 </body>

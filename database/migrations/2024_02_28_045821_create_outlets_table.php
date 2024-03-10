@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('outlets', function (Blueprint $table) {
             $table->id();
             $table->string('nama_layanan')->unique();
+            $table->string('syarat1')->nullable();
+            $table->string('syarat2')->nullable();
+            $table->string('syarat3')->nullable();
             $table->foreignId('instansi_id')->nullable();
             $table->timestamps();
         });

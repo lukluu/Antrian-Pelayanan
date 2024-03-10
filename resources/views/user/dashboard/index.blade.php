@@ -15,6 +15,48 @@
             /* Mengatur tinggi card menjadi otomatis */
         }
     }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        top: calc(100% + 5px);
+        margin-top: 0;
+        /* Sesuaikan jarak vertikal antara tombol profil dan dropdown */
+        min-width: 150px;
+        /* Sesuaikan lebar minimum dropdown */
+    }
+
+    .dropdown-menu.show {
+        display: block;
+    }
+
+    .nav-link {
+        cursor: pointer;
+        /* Menjadikan pointer ketika dihover untuk menandakan klik */
+    }
+
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+
+    .profile-icon {
+        display: inline-block;
+        width: 32px;
+        /* Sesuaikan ukuran ikon sesuai kebutuhan */
+        height: 32px;
+        /* Sesuaikan ukuran ikon sesuai kebutuhan */
+        border-radius: 50%;
+        /* Membuat ikon berbentuk lingkaran */
+        background-color: #ccc;
+        /* Warna latar belakang ikon */
+        background-image: url('/assets2/assets/images/faces/1.jpg');
+        /* URL gambar profil */
+        background-size: cover;
+        /* Mengisi area ikon tanpa merubah proporsi */
+    }
 </style>
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 <link rel="stylesheet" href="{{ asset('sweetalert2.min.css') }}">
@@ -29,9 +71,9 @@
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid">
-                        <a class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 " href="../pages/dashboard.html">
-                            STAF {{ strtoupper(auth()->user()->username) }}
-                        </a>
+                        <div class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 ">
+                            STAF {{ $instansi }}
+                        </div>
                         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon mt-2">
                                 <span class="navbar-toggler-bar bar1"></span>
@@ -52,16 +94,27 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/isi-survei">
+                                    <a class="nav-link me-2" href="/user/dashboard/survei-pengunjung">
                                         Survei Pengunjung
                                     </a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav d-lg-block align-content-center">
-                                <form action="/logout" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-primary btn-sm w-100 mb-3">LogOut</button>
-                                </form>
+                                <li class="nav-item dropdown">
+                                    <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="profile-icon"></span>
+                                    </div>
+
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
+                                        <li>
+                                            <form action="/logout" method="post">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -117,9 +170,6 @@
                                     </div>
                                     <div class="col-lg-4 my-auto">
                                         <div class="h-100">
-                                            <h5 class="mb-1">
-                                                {{ $antrian['nama'] }}
-                                            </h5>
                                             <small class="badge bg-success font-weight-bold">
                                                 {{ $antrian['nama_layanan'] }}
                                             </small>

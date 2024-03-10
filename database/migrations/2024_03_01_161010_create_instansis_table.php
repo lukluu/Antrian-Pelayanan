@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('nama_kepanjangan');
             $table->string('kode')->nullable();
+            $table->string('sektor')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
