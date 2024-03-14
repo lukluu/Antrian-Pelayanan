@@ -61,81 +61,26 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 <link rel="stylesheet" href="{{ asset('sweetalert2.min.css') }}">
 <script src="{{ asset('sweetalert2.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
 <body class="bg-gray-100">
     <div class="min-height-400 bg-primary opacity-10 position-absolute w-100"></div>
     <div class="container position-sticky z-index-sticky top-0">
         <div class="row">
-            <div class="col-12">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
-                    <div class="container-fluid">
-                        <div class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 ">
-                            STAF {{ $instansi }}
-                        </div>
-                        <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon mt-2">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navigation">
-                            <ul class="navbar-nav mx-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/user/dashboard">
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/terlayani">
-                                        Daftar Pengunjung Terlayani
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/survei-pengunjung">
-                                        Survei Pengunjung
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav d-lg-block align-content-center">
-                                <li class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="profile-icon"></span>
-                                    </div>
-
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
-                                        <li>
-                                            <form action="/logout" method="post">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">Logout</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- End Navbar -->
-            </div>
+            @include('user.navbar.index')
         </div>
-        <div class="row custom-margin">
+        <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <a href="/user/dashboard/survei-pengunjung" class="btn btn-danger btn-sm me-auto">Kembali</a>
                         </div>
+                        <h3 class="text-center">Ambil Data Survei</h3>
                     </div>
-                    <div class="card-header">
-                        <div class="col-12">
-                            <h3 class="text-center">Ambil Data Survei</h3>
-                        </div>
-                    </div>
+
                     <div class="card-body d-flex justify-content-center">
-                        <form action="/user/survei/data-survei" method="GET" class="row g-3">
+                        <form action="/user/dashboard/survei/hasil-survei/{{ $outlet_id }}" method="GET" class="row g-3">
                             <div class="col-auto">
                                 <input type="text" class="form-control datepicker " placeholder="Mulai" name="start_date" autocomplete="off">
                             </div>
@@ -147,11 +92,103 @@
                             </div>
                         </form>
                     </div>
+                    @if($surveis->isNotEmpty())
+                    <div class="row d-flex justify-content-center" id="cetak">
+                        <div class="col-11">
+                            <div class="card mb-4 rounded-0 border-2 border-r border-dark">
+                                <div class="card-header pb-0">
+                                    <h6 class="text-center">INDEX KEPUASAN MASYARAKAT (IKM)</h6>
+                                    <h6 class="text-center">DINAS/KANTOR/UNIT/UPT {{ $instansi }}</h6>
+                                    <h6 class="text-center">KOTA KENDARI</h6>
+                                    <h6 class="text-center">BULAN/TRIWULAN/SEMESTER/......TAHUN {{$year}}</h6>
+                                </div>
+                                <div class="card-body px-0 pt-0 pb-2">
+                                    <div class="row py-3 px-5 d-flex justify-content-center">
+                                        <div class="col-lg-6 col-md-6 col-12 border border-dark p-0">
+                                            <div class="card-header p-0 m-0">
+                                                <h6 class="text-center border border-dark text-bolder">Nilai IKM</h6>
+                                            </div>
+                                            <div class="card-body d-flex align-items-center justify-content-center" style="height: 50vh;">
+                                                <h1 class="text-center" style="font-size: 5rem;">{{ $final_score }}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-12 border border-dark p-0">
+                                            <div class="card-header p-0 m-0">
+                                                <h6 class="text-center border border-dark "> Nama Layanan : {{ $nama_layanan }}</h6>
+                                            </div>
+                                            <div class="card-body py-1 px-3 d-flex flex-column">
+                                                <h6 class="text-center text-dark text-bolder">Responden</h6>
+                                                <table class="table mb-0 p-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="px-0"></th>
+                                                            <th class="px-0"></th>
+                                                            <th class="px-0"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="text-bolder text-sm">
+                                                            <td>Total Pengunjung</td>
+                                                            <td>:</td>
+                                                            <td>{{ $total_visitors }} orang</td>
+                                                        </tr>
+                                                        <tr class="text-bolder text-sm">
+                                                            <td>Jenis Kelamin</td>
+                                                            <td>:</td>
+                                                            <td>L = {{ $total_male }} / P = {{ $total_female }}</td>
+                                                        </tr>
+                                                        <tr class="text-bolder text-sm">
+                                                            <td>Pendidikan</td>
+                                                            <td>:</td>
+                                                            <td class="d-flex flex-column">
+                                                                @foreach (['SD', 'SMP', 'SMA', 'DIII', 'S1', 'S2', 'S3'] as $education)
+                                                                <p class="text-bolder text-sm p-0 m-0">{{ $education }} = {{ $total_education[$education] ?? 0 }} orang</p>
+                                                                @endforeach
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                                <small class="text-center text-bolder text-sm mt-3"> Periode survei : {{ $start_date }} s/d {{ $end_date }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center flex-column m-0 p-0 pb-2">
+                                    <small class="text-center text-bolder">TERIMA KASIH PELAYANAN YANG TELAH ANDA BERIKAN </small>
+                                    <small class="text-center text-bolder">MASUKAN ANDA SANGAT BERMANFAAT UNTUK KEMAJUAN UNIT KAMI AGAR TERUS MEMPERBAIKI </small>
+                                    <small class="text-center text-bolder">DAN MENINGKATKAN KUALITAS PELAYANAN BAGI MASYARAKAT</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-5">
+                        <div class="col-12 d-flex justify-content-end gap-2">
+                            <button class="btn btn-danger" id="cetakPdf" onclick="cetakPdf()">
+                                <i class="bi bi-file-earmark-pdf"></i> Cetak PDF</button>
+                            <a href="{{ route('survei.unduh.excel', ['id' => $outlet_id, 'start_date' => $start_date, 'end_date' => $end_date]) }}" class="btn btn-success"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+    </div>
     @include('layouts.scripts')
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+    @if($surveis->isNotEmpty())
+    <script>
+        function cetakPdf() {
+            var element = document.getElementById('cetak');
+            element.style.marginTop = '100px';
+            html2pdf().from(element).save('Hasil Survei Penilaian {{$nama_layanan}} {{$start_date}} s/d {{$end_date}}.pdf');
+        }
+    </script>
+    @endif
     <script>
         $(document).ready(function() {
             $('.datepicker').datepicker({

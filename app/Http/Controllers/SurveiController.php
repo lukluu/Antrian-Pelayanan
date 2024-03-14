@@ -19,7 +19,7 @@ class SurveiController extends Controller
 
     public function survei()
     {
-        $antrian = Antrian::with('outlet')->where('status', 1)->where('survei', null)->get();
+        $antrian = Antrian::with('outlet')->where('status', 1)->where('survei', 0)->get();
         return view('isi-survei', [
             "title" => "Survei | Isi Survei",
             'antrians' => $antrian,

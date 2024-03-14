@@ -72,7 +72,7 @@
                     <div class="card mb-4">
                         <div class="card-header pb-0">
                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <h3>Data Survei Pengunjung</h3>
+                                <h3>Syarat Layanan</h3>
                             </div>
                         </div>
                         <section class="section">
@@ -84,20 +84,28 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Layanan</th>
-                                                    <th>Kunjungan (orang)</th>
-                                                    <th>Detail</th>
+                                                    <th>Syarat 1</th>
+                                                    <th>Syarat 2</th>
+                                                    <th>Syarat 3</th>
+                                                    <th>Syarat 4</th>
+                                                    <th>Syarat 5</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($layananPengunjung as $layanan)
+                                                @foreach ($layanan as $item)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $layanan->nama_layanan }}</td>
-                                                    <td>{{ $layanan->antrians_count }}</td>
+                                                    <td>{{ $item->nama_layanan }}</td>
+                                                    <td>{{ $item->syarat1 }}</td>
+                                                    <td>{{ $item->syarat2 }}</td>
+                                                    <td>{{ $item->syarat3 }}</td>
+                                                    <td>{{ $item->syarat4 }}</td>
+                                                    <td>{{ $item->syarat5 }}</td>
                                                     <td>
-                                                        <a href="/user/dashboard/survei-pengunjung/show/{{$layanan->id}}" class="btn btn-primary btn-sm">
-                                                            <i class="bi bi-eye-fill"></i>
-                                                            Lihat Hasil Survei
+                                                        <a href="/user/dashboard/syarat-layanan/edit/{{ $item->id }}" class="btn btn-primary btn-sm">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                            Kelola
                                                         </a>
                                                     </td>
                                                 </tr>

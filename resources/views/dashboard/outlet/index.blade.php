@@ -24,6 +24,7 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Nama Panjang</th>
+                                    <th>Sektor</th>
                                     <th>Code</th>
                                     <th>Staf</th>
                                     <th>Aksi</th>
@@ -35,6 +36,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $instansi->name }}</td>
                                     <td>{{ $instansi->nama_kepanjangan }}</td>
+                                    <td>Sektor {{ $instansi->sektor }}</td>
                                     <td>{{ $instansi->kode }}</td>
                                     @if($instansi->User)
                                     <td>{{ $instansi->user['name'] }}</td>

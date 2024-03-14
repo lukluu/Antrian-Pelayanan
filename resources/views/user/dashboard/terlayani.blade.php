@@ -69,77 +69,15 @@
     <div class="min-height-400 bg-primary opacity-10 position-absolute w-100"></div>
     <div class="container position-sticky z-index-sticky top-0">
         <div class="row">
-            <div class="col-12">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
-                    <div class="container-fluid">
-                        <div class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 ">
-                            STAF {{ $instansi }}
-                        </div>
-                        <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon mt-2">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navigation">
-                            <ul class="navbar-nav mx-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/user/dashboard">
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/terlayani">
-                                        Daftar Pengunjung Terlayani
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/survei-pengunjung">
-                                        Survei Pengunjung
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav d-lg-block align-content-center">
-                                <li class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="profile-icon"></span>
-                                    </div>
-
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
-                                        <li>
-                                            <form action="/logout" method="post">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">Logout</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div class="container  custom-margin">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">{{ strtoupper(auth()->user()->role) }}</a></li>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ strtoupper(auth()->user()->username) }}</li>
-                        </ol>
-                        <h6 class="font-weight-bolder text-white mb-0">{{ $title }}</h6>
-                    </nav>
-                </div>
-                <!-- End Navbar -->
-            </div>
+            @include('user.navbar.index')
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0 d-flex justify-content-between">
+                        <div class="card-header pb-0 d-flex justify-content-between flex-column">
                             <div class="col-6">
                                 <h3>Data Terlayani</h3>
                             </div>
-                            <div class="col-6 text-md-end">
+                            <div class="text-md-end">
                                 <form action="/dashboard/terlayani/filter" method="GET" class="row g-3">
                                     <div class="col-auto">
                                         <input type="text" class="form-control datepicker " placeholder="Mulai" name="start_date" autocomplete="off">
@@ -150,10 +88,11 @@
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary btn-sm">Filter Data</button>
                                     </div>
-                                    <div class="col-auto ms-auto">
-                                        <button type="button" class="btn btn-danger btn-sm">
-                                            Cetak <i class="bi bi-filetype-pdf"></i>
-                                        </button>
+                                    <div class="col-auto">
+                                        <a href="/user/dashboard/data-terlayani/cetak" type="button" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-filetype-pdf"></i>
+                                            Cetak
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -166,27 +105,32 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-left">No</th>
-                                                    <th class="text-left">Antrian</th>
-                                                    <th class="text-left">Durasi Melayani (menit)</th>
+                                                    <th class="text-left">Layanan</th>
                                                     <th class="text-left">Nama</th>
-                                                    <th class="text-left">NIK</th>
-                                                    <th class="text-left">Survei</th>
+                                                    <th class="text-left">Tanggal Antrian</th>
+                                                    <th class="text-left">Isi Survei</th>
+                                                    <th class="text-left">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($antrians as $antrian)
                                                 <tr>
                                                     <td class="text-left">{{ $loop->iteration }}</td>
-                                                    <td class="text-left">{{ $antrian['nomor_antrian'] }}</td>
-                                                    <td class="text-left">{{ $antrian['durasi'] }}</td>
+                                                    <td class="text-left">{{ $antrian['nama_layanan'] }}</td>
                                                     <td class="text-left">{{ $antrian['nama'] }}</td>
-                                                    <td class="text-left">{{ $antrian['nik'] }}</td>
+                                                    <td class="text-left">{{ $antrian['waktu_pelayanan'] }}</td>
                                                     <td class="text-left">
                                                         @if( $antrian['survei'] == 1 )
-                                                        <small class="text-bolder text-success">Sudah Mengisi Survei</small>
+                                                        <small class="text-bolder text-success">Sudah</small>
                                                         @else
-                                                        <small class="text-bolder text-danger">Belum Mengisi Survei</small>
+                                                        <small class="text-bolder text-danger">Belum</small>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="/user/dashboard/terlayani/detail/{{ $antrian['id'] }}" class="btn btn-primary btn-sm">
+                                                            <i class="bi bi-eye-fill"></i>
+                                                            Detail
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 @endforeach

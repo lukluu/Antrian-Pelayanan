@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Outlet::create([
-            'nama_layanan' => "Bayar Bajak",
+            'nama_layanan' => "Bayar Pajak",
             'instansi_id' => 1,
             'syarat1' => 'KTP',
             'syarat2' => 'Surat Pengantar'
@@ -89,43 +89,52 @@ class DatabaseSeeder extends Seeder
             'outlet_id' => 1,
             'no_antri' => 'A-1',
             'status' => 0,
-            'survei' => 0,
         ]);
 
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 1',
+            'pertanyaan' => 'Bagaimana Pendapat Anda tentang kesesuaian
+            persyaratan pelayanan dengan jenis pelayanannya?',
             'unsur' => 'Kesesuaian Pelayanan'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 2',
+            'pertanyaan' => 'Bagaimana pemahaman Saudara tentang kemudahan
+            prosedur pelayanan di unit ini?',
             'unsur' => 'Kemudahan Pelayanan'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 3',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang kecepatan
+            waktu dalam memberikan pelayanan?',
             'unsur' => 'Kecepatan Pelayanan'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 4',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang kewajaran
+            biaya/tarif dalam pelayanan?',
             'unsur' => 'Kewajaran Biaya'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 5',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang kesesuaian
+            produk pelayanan antara yang tercantum dalam
+            standar pelayanan dengan hasil yang diberikan?',
             'unsur' => 'Kesesuaian Produk'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 6',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang kompetensi/
+            kemampuan petugas dalam pelayanan?',
             'unsur' => 'Kemampuan Petugas'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 7',
+            'pertanyaan' => 'Bagamana pendapat saudara perilaku petugas dalam
+            pelayanan terkait kesopanan dan keramahan?',
             'unsur' => 'Perilaku Petugas'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 8',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang kualitas sarana
+            dan prasarana?',
             'unsur' => 'Kualitas Sarana dan Prasarana'
         ]);
         Pertanyaan::create([
-            'pertanyaan' => 'pertanyaan 9',
+            'pertanyaan' => 'Bagaimana pendapat Saudara tentang penanganan
+            pengaduan pengguna layanan?',
             'unsur' => 'Penanganan Pengaduan'
         ]);
     }

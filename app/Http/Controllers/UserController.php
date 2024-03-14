@@ -54,20 +54,29 @@ class UserController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'username' => 'required|max:255|unique:users',
+        $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'max:255',
+            'username' => 'max:255',
             'password' => 'min:5',
-            'role' => 'required',
         ]);
-        $validatedData['password'] = bcrypt($validatedData['password']);
-        $instansi = User::findOrFail($id);
-        $instansi->name = $validatedData['name'];
-        $instansi->username = $validatedData['username'];
-        $instansi->password = $validatedData['password'];
-        $instansi->role = $validatedData['role'];
-        $instansi->save();
+        $dataToUpdate = [];
+        // Periksa apakah input 'name' diubah dan tambahkan ke array jika iya
+        if ($request->has('name')) {
+            $dataToUpdate['name'] = $request->name;
+        }
 
+        // Periksa apakah input 'username' diubah dan tambahkan ke array jika iya
+        if ($request->has('username')) {
+            $dataToUpdate['username'] = $request->username;
+        }
+
+        // Periksa apakah input 'password' diubah dan tambahkan ke array jika iya
+        if ($request->has('password')) {
+            $dataToUpdate['password'] = bcrypt($request->password);
+        }
+
+        $user->update($dataToUpdate);
         return redirect('/dashboard/data-user')->with('success', 'User updated successfully.');
     }
 

@@ -16,11 +16,13 @@ return new class extends Migration
             $table->foreignId('outlet_id');
             $table->string('no_antri');
             $table->string('nama')->nullable();
+            $table->string('jkl')->nullable();
+            $table->string('pendidikan')->nullable();
             $table->bigInteger('nik')->nullable();
             $table->timestamp('waktu_selesai')->nullable();
             $table->timestamp('waktu_mulai')->nullable();
-            $table->integer('status')->nullable();
-            $table->integer('survei')->nullable();
+            $table->integer('status')->default(0);
+            $table->integer('survei')->default(0);
             $table->timestamps();
         });
     }

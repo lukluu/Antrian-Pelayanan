@@ -63,39 +63,26 @@
     </div>
 </div>
 <div class="row mt-4">
-    <div class="col-lg-3 mb-lg-0 mb-4">
-        <div class="card ">
-            <div class="card-header pb-0 p-3">
-                <div class="d-flex justify-content-between">
-                    <h6 class="mb-2">Terbanyak Hari Ini</h6>
+    <div class="col-lg-5 mb-lg-0 mb-1">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="mb-4">Terbanyak Minggu ini</h6>
+                <div class="list-group list-group-flush">
+                    @foreach($layananTeratas as $index => $layanan)
+                    <div class="list-group-item bg-light mb-2 p-2 rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-success">{{$index+1}}</span>
+                                <span class="ms-2">{{$layanan->outlet->nama_layanan}}</span>
+                            </div>
+                            <span class="text-bolder">{{$layanan->total}}</span>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
-                <i class="fa-light fa-arrow-trend-up text-success"></i>
-                <span class="font-weight-bold"></span> in {{ $jamSekarang }}
-            </div>
-            <div class="table-responsive">
-                <table class="table align-items-center ">
-                    <tbody>
-                        <tr>
-                            <td class="w-10">
-                                <div class="d-flex px-2 py-1 align-items-center">
-                                    <div class="d-flex justify-content-center align-items-center">
-                                        <h5 class="text-center badge bg-success">1</h5>
-                                    </div>
-                                    <div class="ms-4">
-                                        <h6 class="text-sm mb-0"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <h6 class="text-sm mb-0"></h6>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
+
     </div>
 </div>
 @endsection

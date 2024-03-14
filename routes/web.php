@@ -42,6 +42,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/dashboard/data-instansi', [OutletController::class, 'index']);
     Route::get('/dashboard/data-antrian', [DashboardAntrianController::class, 'index']);
+    Route::get('/dashboard/data-antrian/filter', [DashboardAntrianController::class, 'index']);
     Route::get('/dashboard/data-user', [UserController::class, 'index']);
     Route::post('/dashboard/data-user/tambah-user', [UserController::class, 'create']);
     Route::get('/dashboard/data-user/tambah-user', [UserController::class, 'show']);
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::put('/dashboard/data-instansi/edit/{id}', [OutletController::class, 'update'])->name('dashboard.data-instansi.edit');
     Route::get('/dashboard/data-user/edit/{id}', [UserController::class, 'editUser']);
     Route::put('/dashboard/data-user/edit/{id}', [UserController::class, 'update'])->name('dashboard.data-user.edit');
+    Route::get('/dashboard/antrian/detail/{id}', [DashboardAntrianController::class, 'detail']);
 });
 
 Route::group(['middleware' => ['role:user']], function () {
@@ -66,12 +68,19 @@ Route::group(['middleware' => ['role:user']], function () {
     Route::get('/user/dashboard/setting', [DashboardUserController::class, 'setting']);
     Route::put('/user/dashboard/setting/{id}', [DashboardUserController::class, 'editUser'])->name('user.dashboard.setting');
     Route::get('/user/dashboard/cetak', [DashboardUserController::class, 'cetak']);
-    Route::get('/user/survei/show/{id}', [DashboardUserController::class, 'showSurvei']);
-
+    Route::get('/user/dashboard/survei-pengunjung/show/{id}', [DashboardUserController::class, 'showSurvei']);
+    Route::get('/user/dashboard/survei/hasil-survei/{id}', [DashboardUserController::class, 'showSurvei']);
+    Route::get('/user/dashboard/survei/unduh-excel/{id}', [DashboardUserController::class, 'unduhExcel'])->name('survei.unduh.excel');
     Route::get('/user/dashboard/survei-pengunjung', [DashboardUserController::class, 'survei']);
     // Route::get('/user/dashboard/confirm/{antrianId}', [DashboardUserController::class, 'confirmAndSave'])->name('user.dashboard.confirm_save');
     Route::post('/user/dashboard/layani/{antrianId}', [DashboardUserController::class, 'layani'])->name('user.dashboard.layani');
     Route::post('/user/dashboard/selesai/{antrianId}', [DashboardUserController::class, 'selesai'])->name('user.dashboard.selesai');
     Route::get('/user/dashboard/detail/{antrianId}', [DashboardUserController::class, 'detail'])->name('user.detail');
     Route::put('/user/dashboard/data-melayani/{id}', [DashboardUserController::class, 'update'])->name('user.update');
+    Route::get('/user/dashboard/terlayani/detail/{id}', [DashboardUserController::class, 'detailTerlayani']);
+    Route::get('/user/dashboard/syarat-layanan', [DashboardUserController::class, 'syarat']);
+    Route::get('/user/dashboard/syarat-layanan/edit/{id}', [DashboardUserController::class, 'syaratEdit']);
+    Route::put('/user/dashboard/data-melayani/update/{id}', [DashboardUserController::class, 'syaratUpdate']);
+    Route::get('/user/dashboard/data-terlayani/cetak', [DashboardUserController::class, 'showCetak']);
+    Route::get('/user/dashboard/data-terlayani/mulai-cetak/', [DashboardUserController::class, 'mulaiCetak']);
 });

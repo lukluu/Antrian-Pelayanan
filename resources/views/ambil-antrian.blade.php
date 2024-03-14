@@ -51,6 +51,8 @@
                                         </h5>
                                         <hr class="horizontal dark">
                                         <p>{{ $instansi->nama_kepanjangan }}</p>
+                                        <hr class="horizontal dark">
+                                        <small class="text-bolder">Sektor {{ $instansi->sektor }}</small>
                                     </div>
                                 </div>
                                 <div class="col-5 d-flex justify-content-end">

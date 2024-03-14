@@ -68,7 +68,6 @@
 
     .center-horizontal {
         display: grid;
-        place-items: center;
         height: 100vh;
         /* Menempatkan kontainer di tengah halaman vertikal */
         /* Menambahkan gaya tambahan jika diperlukan */
@@ -82,60 +81,8 @@
     <div class="min-height-400 bg-primary opacity-10 position-absolute w-100"></div>
     <div class="container position-sticky z-index-sticky top-0">
         <div class="row">
-            <div class="col-12">
-                <!-- Navbar -->
-                <nav class="navbar navbar-expand-lg blur border-radius-lg top-0 z-index-3 shadow position-absolute mt-4 py-2 start-0 end-0 mx-4">
-                    <div class="container-fluid">
-                        <div class="navbar-brand font-weight-bolder text-black ms-lg-0 ms-3 ">
-                            STAF {{ $instansi }}
-                        </div>
-                        <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon mt-2">
-                                <span class="navbar-toggler-bar bar1"></span>
-                                <span class="navbar-toggler-bar bar2"></span>
-                                <span class="navbar-toggler-bar bar3"></span>
-                            </span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navigation">
-                            <ul class="navbar-nav mx-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="/user/dashboard">
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/terlayani">
-                                        Daftar Pengunjung Terlayani
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="/user/dashboard/survei-pengunjung">
-                                        Survei Pengunjung
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav d-lg-block align-content-center">
-                                <li class="nav-item dropdown">
-                                    <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="profile-icon"></span>
-                                    </div>
-
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
-                                        <li>
-                                            <form action="/logout" method="post">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">Logout</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="container-fluid center-horizontal mt-5 col-12">
+            @include('user.navbar.index')
+            <div class="container-fluid center-horizontal col-12">
                 <div class="row">
                     <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
                         <div class="card shadow-lg mb-2">

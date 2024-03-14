@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Outlet;
 use App\Models\Antrian;
 use App\Models\Instansi;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Validated;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class AntrianController extends Controller
 {
@@ -33,40 +35,36 @@ class AntrianController extends Controller
             "instansis" => $instansis,
         ]);
     }
+
     public function show(Request $request, $id)
     {
-        $colors = [
-            1 => 'info',   // Merah untuk gerai dengan id 1
-            2 => 'success',  // Biru untuk gerai dengan id 2
-            3 => 'warning', // Hijau untuk gerai dengan id 3
-            4 => 'primary', // Hijau untuk gerai dengan id 3
-            5 => 'secondary', // Hijau untuk gerai dengan id 3
-            6 => 'danger', // Hijau untuk gerai dengan id 3
-            7 => 'info', // Hijau untuk gerai dengan id 3
-            8 => 'success', // Hijau untuk gerai dengan id 3
-            // Tambahkan warna lainnya berdasarkan id gerai di sini
-        ];
-
         $outlets = Outlet::with('instansi')->where('instansi_id', $id)->get();
-
         if ($outlets->isEmpty()) {
             return back()->with('info', 'Maaf, Belum Ada Layanan.');
         }
-
-        // Retrieve the kode and name of the institution
         $kodeInstansi = $outlets->first()->instansi->kode;
         $instansi = $outlets->first()->instansi->name;
         $sektor = $outlets->first()->instansi->sektor;
 
-        // Menghitung jumlah antrian untuk kode instansi yang dipilih
-        $jumlahAntrian = Antrian::whereHas('outlet', function ($query) use ($kodeInstansi) {
-            $query->whereHas('instansi', function ($query) use ($kodeInstansi) {
-                $query->where('kode', $kodeInstansi);
-            });
-        })->count();
+        // Mengambil tanggal terakhir kali nomor antrian direset
+        $lastResetDate = Cache::get('last_reset_date');
 
-        // Tambah 1 ke nomor antrian untuk membuat nomor antrian baru
-        $nomorAntrianBaru = $jumlahAntrian + 1;
+        // Mengecek apakah tanggal hari ini berbeda dari tanggal terakhir reset
+        if (!$lastResetDate || Carbon::now()->diffInDays($lastResetDate) > 0) {
+            // Reset nomor antrian ke 1 jika tanggal hari ini berbeda dari tanggal terakhir reset
+            $nomorAntrianBaru = 1;
+            Cache::put('last_reset_date', Carbon::now());
+        } else {
+            // Menghitung jumlah antrian untuk kode instansi yang dipilih
+            $jumlahAntrian = Antrian::whereHas('outlet', function ($query) use ($kodeInstansi) {
+                $query->whereHas('instansi', function ($query) use ($kodeInstansi) {
+                    $query->where('kode', $kodeInstansi);
+                });
+            })->count();
+
+            // Tambah 1 ke nomor antrian untuk membuat nomor antrian baru
+            $nomorAntrianBaru = $jumlahAntrian + 1;
+        }
 
         // Membuat nomor antrian dengan format sesuai dengan kode instansi
         $nomorAntrian = $kodeInstansi . '-' . $nomorAntrianBaru;
@@ -79,6 +77,39 @@ class AntrianController extends Controller
             "sektor" => $sektor,
         ]);
     }
+    // public function show(Request $request, $id)
+    // {
+    //     $outlets = Outlet::with('instansi')->where('instansi_id', $id)->get();
+    //     if ($outlets->isEmpty()) {
+    //         return back()->with('info', 'Maaf, Belum Ada Layanan.');
+    //     }
+
+    //     // Retrieve the kode and name of the institution
+    //     $kodeInstansi = $outlets->first()->instansi->kode;
+    //     $instansi = $outlets->first()->instansi->name;
+    //     $sektor = $outlets->first()->instansi->sektor;
+
+    //     // Menghitung jumlah antrian untuk kode instansi yang dipilih
+    //     $jumlahAntrian = Antrian::whereHas('outlet', function ($query) use ($kodeInstansi) {
+    //         $query->whereHas('instansi', function ($query) use ($kodeInstansi) {
+    //             $query->where('kode', $kodeInstansi);
+    //         });
+    //     })->count();
+
+    //     // Tambah 1 ke nomor antrian untuk membuat nomor antrian baru
+    //     $nomorAntrianBaru = $jumlahAntrian + 1;
+
+    //     // Membuat nomor antrian dengan format sesuai dengan kode instansi
+    //     $nomorAntrian = $kodeInstansi . '-' . $nomorAntrianBaru;
+
+    //     return view('keep', [
+    //         "title" => "Welcome | Simpan Antrian",
+    //         "pelayanans" => $outlets,
+    //         'instansi' => $instansi,
+    //         "nomor" => $nomorAntrian,
+    //         "sektor" => $sektor,
+    //     ]);
+    // }
 
 
     public function store(Request $request)
@@ -95,6 +126,5 @@ class AntrianController extends Controller
         Alert::success('Nomor Antrian Anda: ' . '<h1>' . $nomorAntrian . '</h1>')
             ->autoClose(20000);
         return back();
-        // return back()->with('success', 'Nomor Antrian Anda ' . '<h1>' . $nomorAntrian . '</h1>');
     }
 }

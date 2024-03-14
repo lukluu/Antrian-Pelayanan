@@ -85,67 +85,51 @@
                         <div class="card-header pb-0">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-auto">
-                                    <a href="/user/dashboard" class="btn btn-danger btn-sm">Kembali</a>
+                                    <a href="/user/dashboard/syarat-layanan" class="btn btn-danger btn-sm">Kembali</a>
                                 </div>
                             </div>
                         </div>
 
-                        <form action="/user/dashboard/data-melayani/{{$id}}" method="post">
+                        <form action="/user/dashboard/data-melayani/update/{{$layanan->id}}" method="post">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <p class="col-sm-4 col-form-label">Keterangan</p>
                                     <div class="col-sm-8">
-                                        <small class="col-form-label text-center">: {{ $nama_layanan }}</small>
+                                        <small class="col-form-label text-center">: {{ $layanan->nama_layanan }}</small>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <p class="col-sm-4 col-form-label">Nomor Antrian</p>
+                                    <p class="col-sm-4 col-form-label">Syarat 1</p>
                                     <div class="col-sm-8">
-                                        <small class="col-form-label text-center">: {{ $nomor_antrian }}</small>
+                                        <input type="text" class="form-control" name="syarat1" value="{{$layanan->syarat1}}">
                                     </div>
                                 </div>
-                                <hr class="horizontal dark">
-                                <p class="text-center">Isi Data Pengunjung</p>
                                 <div class="row mb-3">
-                                    <p class="col-sm-4 col-form-label">Nama</p>
+                                    <p class="col-sm-4 col-form-label">Syarat 2</p>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="nama" value="{{$nama}}">
+                                        <input type="text" class="form-control" name="syarat2" value="{{$layanan->syarat2}}">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <p class="col-sm-4 col-form-label">NIK</p>
+                                    <p class="col-sm-4 col-form-label">Syarat 3</p>
                                     <div class="col-sm-8">
-                                        <input type="number" class="form-control" name="nik" value="{{$nik}}">
+                                        <input type="text" class="form-control" name="syarat3" value="{{$layanan->syarat3}}">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <p class="col-sm-4 col-form-label">Jenis Kelamin</p>
-                                    <div class="col-sm-8 ms-auto">
-                                        <select class="form-select" name="jkl" id="jkl">
-                                            <option value="" {{ $jkl == "" ? "selected" : "" }}></option>
-                                            <option value="Laki-Laki" {{ $jkl == "Laki-Laki" ? "selected" : "" }}>Laki-Laki</option>
-                                            <option value="Perempuan" {{ $jkl == "Perempuan" ? "selected" : "" }}>Perempuan</option>
-                                        </select>
+                                    <p class="col-sm-4 col-form-label">Syarat 4</p>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="syarat4" value="{{$layanan->syarat4}}">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <p for="pendidikan" class="col-sm-3 col-form-label">Riwayat Pendidikan</p>
-                                    <div class="col-sm-8 ms-auto">
-                                        <select class="form-select" name="pendidikan" id="pendidikan">
-                                            <option value="" {{ $pendidikan == "" ? "selected" : "" }}></option>
-                                            <option value="SD" {{ $pendidikan == "SD" ? "selected" : "" }}>SD</option>
-                                            <option value="SMP" {{ $pendidikan == "SMP" ? "selected" : "" }}>SMP</option>
-                                            <option value="SMA" {{ $pendidikan == "SMA" ? "selected" : "" }}>SMA</option>
-                                            <option value="DIII" {{ $pendidikan == "DIII" ? "selected" : "" }}>DIII</option>
-                                            <option value="S1" {{ $pendidikan == "S1" ? "selected" : "" }}>S1</option>
-                                            <option value="S2" {{ $pendidikan == "S2" ? "selected" : "" }}>S2</option>
-                                            <option value="S3" {{ $pendidikan == "S3" ? "selected" : "" }}>S3</option>
-                                        </select>
+                                <div class="row mb-3">
+                                    <p class="col-sm-4 col-form-label">Syarat 5</p>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="syarat5" value="{{$layanan->syarat5}}">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="text-center mb-3">
                                 <button type="submit" class="btn btn-primary btn-sm">Update</button>

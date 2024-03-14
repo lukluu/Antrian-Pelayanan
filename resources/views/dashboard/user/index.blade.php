@@ -7,7 +7,7 @@
             <div class="card-header pb-0">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-md-6 order-md-1 ">
-                        <h3>DataTable</h3>
+                        <h3>Data Staff Gerai</h3>
                     </div>
                     <div class="col-md-6 order-md-2 text-md-end">
                         <a href="/dashboard/data-user/tambah-user" class="btn btn-primary">Tambah Pegawai Outler</a>
@@ -40,11 +40,11 @@
                                     <td>{{ $user->role }}</td>
                                     <td>
                                         <div class="nav-wrapper position-relative end-0 d-flex justify-content-center">
-                                            <a href="/dashboard/data-user/edit/{{$user->id}}" class="badge bg-warning me-2">Edit</a>
+                                            <a href="/dashboard/data-user/edit/{{$user->id}}" class="badge bg-warning me-2"><i class="bi bi-pencil-square text-black"></i></a>
                                             <form id="hapus-user-{{ $user->id }}" action="{{ route('dashboard.data-user.delete', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="badge bg-danger border-0" onclick="confirmSave('{{ $user->name }}', '{{ $user->id }}')">Hapus</button>
+                                                <button type="button" class="badge bg-danger border-0" onclick="confirmSave('{{ $user->name }}', '{{ $user->id }}')"><i class="bi bi-trash3-fill color-danger"></i></button>
                                             </form>
                                         </div>
                                     </td>
