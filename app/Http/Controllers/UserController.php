@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $user = User::all();
+        $user = User::with('instansi')->get();
 
         return view('dashboard.user.index', [
             'title' => 'Dashboard | Users',
@@ -90,5 +90,39 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('dashboard/data-user')->with('success', 'User deleted successfully.');
+    }
+
+
+    public function profileAdmin()
+    {
+        $user = auth()->user();
+        return view('dashboard.profile.index', [
+            'title' => 'Dashboard | Profile',
+            'user' => $user,
+        ]);
+    }
+    public function editProfileAdmin(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'max:255',
+            'username' => 'max:255',
+            'password' => 'min:5',
+        ]);
+        $dataToUpdate = [];
+        // Periksa apakah input 'name' diubah dan tambahkan ke array jika iya
+        if ($request->has('name')) {
+            $dataToUpdate['name'] = $request->name;
+        }
+        if ($request->has('username')) {
+            $dataToUpdate['username'] = $request->username;
+        }
+        if ($request->has('password')) {
+            $dataToUpdate['password'] = bcrypt($request->password);
+        } else {
+            $dataToUpdate['password'] = $user->password;
+        }
+        $user->update($dataToUpdate);
+        return back()->with('success', 'Profile updated successfully.');
     }
 }

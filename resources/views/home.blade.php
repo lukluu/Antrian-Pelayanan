@@ -50,7 +50,15 @@
 
     <nav class="navbar bg-body-tertiary fixed-top p-0">
         <div class="container-fluid">
+            @auth
+            @if(auth()->user()->role == 'admin')
+            <a href="/dashboard" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }} navbar-brand">Dashboard</a>
+            @elseif(auth()->user()->role == 'user')
+            <a href="/user/dashboard" class="nav-link {{ Request::is('user/dashboard') ? 'active' : '' }} navbar-brand">Dashboard</a>
+            @endif
+            @else
             <a href="/login" class="nav-link {{ Request::is('login') ? 'active' : '' }} navbar-brand">Login</a>
+            @endauth
         </div>
     </nav>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">

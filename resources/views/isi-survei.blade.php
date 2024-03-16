@@ -37,46 +37,45 @@
                     </div>
                 </nav>
             </div>
-            <div class="container-fluid mt-5">
-                <div class="modal-body mb-3">
-                    <div class="bg-light p-4">
-                        <label class="text-sm">Silahkan Pilih dan Ketuk Nomor Antrian Anda dan Lakukan Penilaian Kepuasan Anda</label>
-                        <div class="d-flex flex-column align-items-start">
-                            <small class="text-muted">Setip Penilaian Anda Selalu Berguna Untuk Meningkatkan Kualitas Pelayanan Kami, Terima Kasih</small>
-                        </div>
+        </div>
+        <div class="row mt-5 pt-5 mx-0">
+            <div class="modal-body col-12 mb-3">
+                <div class="bg-light p-4">
+                    <label class="text-sm">Silahkan Pilih dan Ketuk Nomor Antrian Anda dan Lakukan Penilaian Kepuasan Anda</label>
+                    <div class="d-flex flex-column align-items-start">
+                        <small class="text-muted">Setip Penilaian Anda Selalu Berguna Untuk Meningkatkan Kualitas Pelayanan Kami, Terima Kasih</small>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
-                        @foreach($antrians as $antrian)
-                        <a href="/survei/isi-survei/{{$antrian->id}}">
-                            <div class="bg bg-white shadow-lg mb-2">
-                                <div class="card-body py-0 px-3">
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-auto d-flex align-items-center">
-                                            <div class="avatar avatar-xl position-relative">
-                                                <h3 class="w-100 border-radius-lg shadow-sm text-center bg bg-success text-white">
-                                                    {{ $antrian->no_antri }}
-                                                </h3>
-                                            </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-sm-12 mb-xl-0 mb-4">
+                    @foreach($antrians as $antrian)
+                    <a href="/survei/isi-survei/{{$antrian->id}}">
+                        <div class="bg bg-white shadow-lg mb-2">
+                            <div class="card-body py-0 px-3">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto d-flex align-items-center">
+                                        <div class="avatar avatar-xl position-relative">
+                                            <h3 class="w-100 border-radius-lg shadow-sm text-center bg bg-success text-white">
+                                                {{ $antrian->no_antri }}
+                                            </h3>
                                         </div>
-                                        <div class="col-auto">
-                                            <small class="badge bg-success font-weight-bold">
-                                                {{ $antrian->outlet->nama_layanan }}
-                                            </small>
-                                        </div>
-                                        <div class="col-auto ms-auto">
-                                            <!-- <small class="px-2">Isi Survei</small> -->
-                                            <i class="bi bi-chevron-right text-2xl"></i>
-                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <small class="badge bg-success font-weight-bold">
+                                            {{ $antrian->outlet->nama_layanan }}
+                                        </small>
+                                    </div>
+                                    <div class="col-auto ms-auto">
+                                        <!-- <small class="px-2">Isi Survei</small> -->
+                                        <i class="bi bi-chevron-right text-2xl"></i>
                                     </div>
                                 </div>
                             </div>
-                        </a>
-                        @endforeach
-                    </div>
+                        </div>
+                    </a>
+                    @endforeach
                 </div>
-
             </div>
 
         </div>

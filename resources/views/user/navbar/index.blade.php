@@ -57,6 +57,7 @@
                         </div>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/user/dashboard/setting">Settings</a></li>
+                            <li><a class="dropdown-item" href="/">Ke Home</a></li>
                             <li>
                                 <form action="/logout" method="post">
                                     @csrf

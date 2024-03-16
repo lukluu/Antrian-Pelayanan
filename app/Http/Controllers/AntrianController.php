@@ -15,26 +15,23 @@ use Illuminate\Support\Facades\Validator;
 
 class AntrianController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $colors = [
-            1 => 'info',   // Merah untuk gerai dengan id 1
-            2 => 'success',  // Biru untuk gerai dengan id 2
-            3 => 'warning', // Hijau untuk gerai dengan id 3
-            4 => 'primary', // Hijau untuk gerai dengan id 3
-            5 => 'secondary', // Hijau untuk gerai dengan id 3
-            6 => 'danger', // Hijau untuk gerai dengan id 3
-            7 => 'info', // Hijau untuk gerai dengan id 3
-            8 => 'success', // Hijau untuk gerai dengan id 3
-            // Tambahkan warna lainnya berdasarkan id gerai di sini
-        ];
-        $instansis = Instansi::all();
+        $instansis = Instansi::where('aktif', 1); // Mulai kueri dengan kondisi aktif = 1
+
+        if ($request->has('sektor')) {
+            $sektor = $request->sektor;
+            $instansis->where('sektor', $sektor); // Menambahkan kondisi sektor jika parameter sektor disediakan
+        }
+
+        $instansis = $instansis->get(); // Menjalankan kueri dan mendapatkan hasilnya
+
         return view('ambil-antrian', [
             "title" => "Welcome | Ambil Antrian",
-            "colors" => $colors,
             "instansis" => $instansis,
         ]);
     }
+
 
     public function show(Request $request, $id)
     {

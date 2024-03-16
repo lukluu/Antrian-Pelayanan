@@ -24,6 +24,7 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Username</th>
+                                    <th>Instansi</th>
                                     <th>role</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
@@ -37,6 +38,7 @@
                                     <td>{{ $loop->iteration-1 }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->username }}</td>
+                                    <td>{{ $user->instansi->name }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>
                                         <div class="nav-wrapper position-relative end-0 d-flex justify-content-center">

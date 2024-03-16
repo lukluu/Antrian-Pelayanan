@@ -20,8 +20,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
+            <div class="back m-2 mb-0">
+                <a href="/dashboard/data-user" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
             <div class="card-header pb-0">
-                <a href="/dashboard/data-user" class="mb-0 badge btn-danger hover-none">Kembali</a>
+                <h4 class="text-capitalize text-center">Edit User <span class="text-uppercase">{{ $user->username }}</span></h4>
             </div>
             <form method="POST" action="{{ route('dashboard.data-user.edit', $user->id) }}">
                 @csrf

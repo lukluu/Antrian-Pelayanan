@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('instansis', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nama_kepanjangan');
+            $table->string('nama_kepanjangan')->nullable();
             $table->string('kode')->nullable();
             $table->string('sektor')->nullable();
+            $table->string('logo')->nullable();
             $table->foreignId('user_id')->nullable();
+            $table->integer('aktif')->default(1);
             $table->timestamps();
         });
     }

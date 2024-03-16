@@ -6,13 +6,11 @@
 
     .custom-card {
         height: 300px;
-        /* Atur tinggi card sesuai kebutuhan */
     }
 
     @media (max-width: 700px) {
         .custom-card {
             height: auto;
-            /* Mengatur tinggi card menjadi otomatis */
         }
     }
 
@@ -24,9 +22,7 @@
         padding: 10px;
         top: calc(100% + 5px);
         margin-top: 0;
-        /* Sesuaikan jarak vertikal antara tombol profil dan dropdown */
         min-width: 150px;
-        /* Sesuaikan lebar minimum dropdown */
     }
 
     .dropdown-menu.show {
@@ -35,7 +31,6 @@
 
     .nav-link {
         cursor: pointer;
-        /* Menjadikan pointer ketika dihover untuk menandakan klik */
     }
 
     .dropdown-toggle::after {
@@ -45,17 +40,11 @@
     .profile-icon {
         display: inline-block;
         width: 32px;
-        /* Sesuaikan ukuran ikon sesuai kebutuhan */
         height: 32px;
-        /* Sesuaikan ukuran ikon sesuai kebutuhan */
         border-radius: 50%;
-        /* Membuat ikon berbentuk lingkaran */
         background-color: #ccc;
-        /* Warna latar belakang ikon */
         background-image: url('/assets2/assets/images/faces/1.jpg');
-        /* URL gambar profil */
         background-size: cover;
-        /* Mengisi area ikon tanpa merubah proporsi */
     }
 </style>
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->

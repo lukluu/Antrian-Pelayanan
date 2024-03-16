@@ -27,13 +27,24 @@
                 </div> -->
             </div>
         </nav>
-        <a href="/ambil-antrian" class="mx-4 btn btn-secondary mt-2">Kembali</a>
-        <div class="card shadow-lg mx-4">
-            <div class="card-body p-3 d-flex flex-column align-items-center">
-                <div class="navbar-brand">
-                    <h4 class="text-center">
-                        PELAYANAN {{ $instansi }}
-                    </h4>
+        <div class="card shadow-lg mx-4" style="border-radius: 0;">
+            <div class="card-body p-3">
+                <div class="row gx-4">
+                    <div class="col d-flex align-items-center">
+                        <a href="/ambil-antrian" class="btn btn-secondary mt-3">
+                            <i class="bi bi-arrow-left"></i>
+                        </a>
+                        <div class="col-10 ms-2">
+                            <small class="h5 text-dark text-bolder">
+                                {{ $instansi }}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-auto ms-auto d-flex align-items-center mt-1">
+                        <small class="h5 text-dark text-bolder">
+                            Sektor {{ $sektor }}
+                        </small>
+                    </div>
                 </div>
             </div>
 
@@ -42,21 +53,21 @@
         <div class="container-fluid py-4">
             <div class="row">
                 @foreach($pelayanans as $pelayanan)
-                <div class="col-xl-3 col-sm-6 mb-xl-5 mb-4 " role="button" data-bs-toggle="modal" data-bs-target="#modal{{ $pelayanan->id }}">
+                <div class="col-xl-3 col-sm-6 mb-3" role="button" data-bs-toggle="modal" data-bs-target="#modal{{ $pelayanan->id }}">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-5 d-flex align-items-center ">
-                                    <span style="font-size: 4em;"><i class="bi bi-{{$loop->iteration}}-circle-fill"></i></span>
-                                </div>
-                                <div class="col-7 d-flex align-items-center ">
-                                    <div class="numbers">
-                                        <h5 class="font-weight-bolder">
-                                            {{ $pelayanan->nama_layanan }}
-                                        </h5>
+                                <div class="col-2 d-flex align-items-center">
+                                    <div style="background-color: #6c757d; border-radius: 50%; padding: 12px; height: 50px; width: 50px;" class="text-center d-flex justify-content-center align-items-center">
+                                        <span style="font-size: 2.5em; color: #fff;">{{$loop->iteration}}</span>
                                     </div>
                                 </div>
 
+                                <div class="col-10 me-auto d-flex align-items-center ps-4">
+                                    <small class="font-weight-bolder text-dark">
+                                        {{ $pelayanan->nama_layanan }}
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,15 +75,11 @@
                 <div class="modal fade text-left tutupModal" id="modal{{ $pelayanan->id }}" tabindex="-1" role="dialog" data-bs-backdrop="false" aria-labelledby="myModalLabel{{ $pelayanan->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="text-dark modal-title text-center">
+                            <div class="modal-header d-flex justify-content-center">
+                                <small class="font-weight-bolder text-dark h5">
                                     {{ $pelayanan->nama_layanan }}
-                                </h3>
-                                <small class="text-dark badge">
-                                    Sektor {{ $sektor }}
                                 </small>
                             </div>
-
                             <div class="modal-body ">
                                 <div class="modal-body">
                                     <div class="bg-light p-4 rounded">
@@ -104,10 +111,13 @@
                                     <input class="form-control" type="hidden" name="outlet_id" value="{{ $pelayanan->id }}">
                                     <input class=" form-control" type="hidden" name="no_antri" value="{{ $nomor }}">
                                     <input class="form-control" type="hidden" name="status" value="0">
-                                    <button type="submit" class="btn btn-danger btn-xl col-12 py-4" onclick="ambilAntrian()">
-                                        <i class="bx bx-check d-block"></i>
-                                        <span class="d-sm-block h3 text-white">Ambil Antrian</span>
-                                    </button>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-danger p-4 rounded" onclick="ambilAntrian()">
+                                            <i class="bx bx-check d-block"></i>
+                                            <span class="d-sm-block h5 text-white">Ambil Antrian</span>
+                                        </button>
+                                    </div>
+
                                 </form>
                             </div>
                             <div class="modal-footer">

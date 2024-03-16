@@ -3,6 +3,11 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
+            <div class="back m-2 mb-0">
+                <a href="/dashboard/data-antrian" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
             <div class="card-header pb-0">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-auto">
