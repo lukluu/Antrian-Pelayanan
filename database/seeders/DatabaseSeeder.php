@@ -276,7 +276,7 @@ class DatabaseSeeder extends Seeder
             'syarat1' => 'KTP',
         ]);
         Outlet::create([
-            'nama_layanan' => "KonsultasiD DPMPTSP",
+            'nama_layanan' => "Konsultasi DPMPTSP",
             'instansi_id' => 1,
             'syarat1' => 'KTP',
         ]);
@@ -629,11 +629,6 @@ class DatabaseSeeder extends Seeder
             'instansi_id' => 10,
             'syarat1' => 'KTP',
         ]);
-        Antrian::create([
-            'outlet_id' => 1,
-            'no_antri' => 'A-1',
-            'status' => 0,
-        ]);
         // DISDUKCAPIL AKHIR
         // BANSULTRA
         Instansi::create([
@@ -695,7 +690,7 @@ class DatabaseSeeder extends Seeder
             'syarat1' => 'KTP',
         ]);
         Outlet::create([
-            'nama_layanan' => "Pergantian Kartu yang rusa/hilangs",
+            'nama_layanan' => "Pergantian Kartu yang rusak/hilang",
             'instansi_id' => 12,
             'syarat1' => 'KTP',
         ]);

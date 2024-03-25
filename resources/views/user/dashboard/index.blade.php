@@ -1,5 +1,10 @@
 @include('layouts.head')
 <style>
+    .active .aha {
+        background-color: #1e895b !important;
+        color: #fff;
+    }
+
     .custom-margin {
         margin-top: 7em;
     }
@@ -57,6 +62,12 @@
         background-size: cover;
         /* Mengisi area ikon tanpa merubah proporsi */
     }
+
+    .input-group .form-select,
+    .input-group button {
+        height: 38px;
+        /* Sesuaikan tinggi sesuai kebutuhan */
+    }
 </style>
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 <link rel="stylesheet" href="{{ asset('sweetalert2.min.css') }}">
@@ -69,7 +80,41 @@
             @include('user.navbar.index')
 
             <div class="container-fluid py-4">
-                <div class="row">
+                <div class="text-white text-center mb-4"><span class="text-bolder">Semua Layanan</span></div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-xl-2 mb-3">
+                        <div>
+                            <div class="border-radius-lg p-2">
+                                <div class="card-body text-center">
+                                    <small class="text-bolder"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-1 mb-3">
+                        <a href="/user/dashboard" class="text-black {{ Request::is('user/dashboard') ? 'active' : '' }}">
+                            <div class="blur aha border-radius-lg p-2">
+                                <div class="card-body text-center">
+                                    <small class="text-bolder">All</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-xl-9 mb-3">
+                        <div class="input-group p-0">
+                            <select class="form-select" id="layanan" name="layanan" aria-label="Example select with button addon">
+                                <option value="">Pilih Layanan</option>
+                                @foreach ($outlets as $layanan)
+                                <option value="{{ $layanan->id }}">{{ $layanan->nama_layanan }}</option>
+                                @endforeach
+                            </select>
+                            <a href="#" id="filterLink" class="btn btn-danger">Filter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
                     <div class="col-xl-2 col-sm-3 mb-xl-0 mb-4 custom-card p-0 shadow-xl">
                         <div class="card h-100 p-0">
                             <div class="card-body d-flex justify-content-center align-items-center">
@@ -91,10 +136,8 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-xl-10 col-sm-9 mb-xl-0 mb-4">
                         @foreach($antrians as $antrian)
-
                         <div class=" card shadow-lg mb-2">
                             <div class="card-body p-3">
                                 <dsiv class="row gx-4">
@@ -149,12 +192,25 @@
                         </div>
                         @endforeach
                     </div>
+                    <div class="col-xl-10 col-sm-9 mb-xl-0 mb-4" id="dataFilterLayanan">
+
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
+    </div>
 
-        @include('layouts.scripts')
+    @include('sweetalert::alert')
+    @include('layouts.scripts')
+    <script>
+        document.getElementById('filterLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            var layananId = document.getElementById('layanan').value;
+            var baseUrl = '/user/dashboard/filter';
+            var url = baseUrl + '?layanan=' + layananId;
+            window.location.href = url; // Redirect to the constructed URL
+        });
+    </script>
+
 </body>

@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            // Reset nomor antrian ke 1
+            \Illuminate\Support\Facades\Cache::forget('last_reset_date');
+        })->dailyAt('00:00');
     }
 
     /**

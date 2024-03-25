@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Cache;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
 
 class AntrianController extends Controller
 {
@@ -32,6 +33,23 @@ class AntrianController extends Controller
         ]);
     }
 
+
+    // public function resetNomorAntrian()
+    // {
+    //     // Mengecek apakah ada antrian baru yang diambil sejak reset terakhir
+    //     $antrianMasuk = true; // Anda perlu menentukan cara untuk mengetahui apakah ada antrian yang masuk
+
+    //     if ($antrianMasuk) {
+    //         // Reset nomor antrian ke 1
+    //         Cache::put('nomor_antrian', 1);
+    //         Cache::put('last_reset_date', Carbon::now());
+    //         // Mengembalikan respons yang sesuai
+    //         return response()->json(['message' => 'Nomor antrian telah direset']);
+    //     } else {
+    //         // Tidak ada antrian yang masuk, tidak perlu melakukan reset
+    //         return response()->json(['message' => 'Tidak ada antrian yang masuk']);
+    //     }
+    // }
 
     public function show(Request $request, $id)
     {
@@ -74,42 +92,26 @@ class AntrianController extends Controller
             "sektor" => $sektor,
         ]);
     }
-    // public function show(Request $request, $id)
+
+
+    // public function store(Request $request)
     // {
-    //     $outlets = Outlet::with('instansi')->where('instansi_id', $id)->get();
-    //     if ($outlets->isEmpty()) {
-    //         return back()->with('info', 'Maaf, Belum Ada Layanan.');
-    //     }
-
-    //     // Retrieve the kode and name of the institution
-    //     $kodeInstansi = $outlets->first()->instansi->kode;
-    //     $instansi = $outlets->first()->instansi->name;
-    //     $sektor = $outlets->first()->instansi->sektor;
-
-    //     // Menghitung jumlah antrian untuk kode instansi yang dipilih
-    //     $jumlahAntrian = Antrian::whereHas('outlet', function ($query) use ($kodeInstansi) {
-    //         $query->whereHas('instansi', function ($query) use ($kodeInstansi) {
-    //             $query->where('kode', $kodeInstansi);
-    //         });
-    //     })->count();
-
-    //     // Tambah 1 ke nomor antrian untuk membuat nomor antrian baru
-    //     $nomorAntrianBaru = $jumlahAntrian + 1;
-
-    //     // Membuat nomor antrian dengan format sesuai dengan kode instansi
-    //     $nomorAntrian = $kodeInstansi . '-' . $nomorAntrianBaru;
-
-    //     return view('keep', [
-    //         "title" => "Welcome | Simpan Antrian",
-    //         "pelayanans" => $outlets,
-    //         'instansi' => $instansi,
-    //         "nomor" => $nomorAntrian,
-    //         "sektor" => $sektor,
+    //     $validatedData = $request->validate([
+    //         "outlet_id" => "required",
+    //         "no_antri" => "required",
+    //         "status" => "required",
     //     ]);
+
+    //     Antrian::create($validatedData);
+    //     $antrianBaru = Antrian::latest()->first();
+    //     $nomorAntrian = $antrianBaru->no_antri;
+    //     Alert::success('Nomor Antrian Anda: ' . '<h1>' . $nomorAntrian . '</h1>' . 'Silahkan Di Foto')
+    //         ->autoClose(30000);
+    //     return back();
     // }
 
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             "outlet_id" => "required",
@@ -120,8 +122,13 @@ class AntrianController extends Controller
         Antrian::create($validatedData);
         $antrianBaru = Antrian::latest()->first();
         $nomorAntrian = $antrianBaru->no_antri;
-        Alert::success('Nomor Antrian Anda: ' . '<h1>' . $nomorAntrian . '</h1>')
-            ->autoClose(20000);
-        return back();
+
+        Alert::success('Nomor Antrian Anda: ' . '<h1>' . $nomorAntrian . '</h1>' . '<h4>' . 'Silahkan di Foto/ Capture' . '</h4>')
+            ->autoClose(30000);
+
+        // Memasukkan skrip JavaScript ke dalam response untuk mencetak langsung
+        $response = redirect()->back();
+        $response->setContent('<script>window.onload = function() { window.print(); }</script>');
+        return $response;
     }
 }

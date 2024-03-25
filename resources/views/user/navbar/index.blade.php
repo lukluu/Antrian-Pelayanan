@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navigation">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center me-2 {{ Request::is('user/dashboard') || Request::is('user/dashboard/detail*') ? 'active' : '' }}" aria-current="page" href="/user/dashboard">
+                        <a class="nav-link d-flex align-items-center me-2 {{ Request::is('user/dashboard') || Request::is('user/dashboard/detail*') || Request::is('user/dashboard/filter*') ? 'active' : '' }}" aria-current="page" href="/user/dashboard">
                             Dashboard
                         </a>
                     </li>

@@ -11,6 +11,7 @@ use App\Models\Outlet;
 use App\Models\Survei;
 
 use App\Models\Antrian;
+use App\Models\Instansi;
 use App\Models\Pertanyaan;
 use function Ramsey\Uuid\v1;
 use Illuminate\Http\Request;
@@ -61,15 +62,91 @@ class DashboardUserController extends Controller
         });
 
         $tunggu = $antrians->count();
-
+        $outlets = Outlet::where('instansi_id', $instansiId)->get();
         return view('user.dashboard.index', [
             'title' => 'Dashboard',
             'antrians' => $antrianData,
             'antrianMenunggu' => $tunggu,
-            'instansi' => $namaInstansi
+            'instansi' => $namaInstansi,
+            'instansiId' => $instansiId,
+            'outlets' => $outlets
         ]);
     }
 
+    public function filterAntrian(Request $request)
+    {
+        $user = auth()->user();
+        $instansiId = $user->instansi->id;
+        $layananId = $request->layanan;
+        $outlet = Outlet::find($layananId);
+        if ($layananId == null) {
+            return redirect('/user/dashboard');
+        }
+        $nama_layanan = $outlet->nama_layanan;
+
+        $antrian = Antrian::whereHas('outlet', function ($query) use ($layananId) {
+            $query->where('id', $layananId);
+        })
+            ->where('status', 0)
+            ->get();
+
+        $antrian_menunggu = $antrian->count();
+        $outlets = Outlet::where('instansi_id', $instansiId)->get();
+
+        $antrianData = $antrian->map(function ($antrian) {
+            return [
+                'id' => $antrian->id,
+                'nomor_antrian' => $antrian->no_antri,
+                'nama_layanan' => $antrian->outlet->nama_layanan, // Include service name
+                'nama' => $antrian->nama,
+                'nik' => $antrian->nik,
+                'no_hp' => $antrian->no_hp,
+                'tanggal_lahir' => $antrian->ttl,
+                'gender' => $antrian->gender,
+                'alamat' => $antrian->alamat,
+                'kelurahan' => $antrian->kelurahan,
+                'kecamatan' => $antrian->kecamatan,
+                'pekerjaan' => $antrian->pekerjaan,
+                'waktu_mulai' => $antrian->waktu_mulai,
+                'waktu_pelayanan' => $antrian->created_at->diffForHumans(),
+                'waktu' => $antrian->created_at,
+            ];
+        });
+
+        return view('user.dashboard.filter', [
+            'title' => 'Dashboard',
+            'outlets' => $outlets,
+            'nama_layanan' => $nama_layanan,
+            'layananId' => $layananId,
+            'antrianMenunggu' => $antrian_menunggu,
+            'instansi' => $user->instansi->name,
+            'antrians' => $antrianData
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $antrian = Antrian::findOrFail($id);
+        $user = auth()->user();
+        $namaInstansi = $user->instansi->name;
+        $nama_layanan = $antrian->outlet->nama_layanan;
+        $layananId = $antrian->outlet->id;
+        return view('user.dashboard.data-melayani', [
+            'title' => 'Melayani',
+            'id' => $antrian->id,
+            'nomor_antrian' => $antrian->no_antri,
+            'nama' => $antrian->nama,
+            'layananId' => $layananId,
+            'nik' => $antrian->nik,
+            'jkl' => $antrian->jkl,
+            'pendidikan' => $antrian->pendidikan,
+            'status' => $antrian->status,
+            'waktu_pelayanan' => $antrian->created_at->diffForHumans(),
+            'nama_layanan' => $nama_layanan,
+            'instansi' => $namaInstansi,
+
+        ]);
+    }
 
 
     public function selesai(Request $request)
@@ -86,29 +163,6 @@ class DashboardUserController extends Controller
         $antrian->waktu_mulai = now();
         $antrian->save();
         return back();
-    }
-
-    public function detail($id)
-    {
-        $antrian = Antrian::findOrFail($id);
-        $user = auth()->user();
-        $namaInstansi = $user->instansi->name;
-        $nama_layanan = $antrian->outlet->nama_layanan;
-
-        return view('user.dashboard.data-melayani', [
-            'title' => 'Melayani',
-            'id' => $antrian->id,
-            'nomor_antrian' => $antrian->no_antri,
-            'nama' => $antrian->nama,
-            'nik' => $antrian->nik,
-            'jkl' => $antrian->jkl,
-            'pendidikan' => $antrian->pendidikan,
-            'status' => $antrian->status,
-            'waktu_pelayanan' => $antrian->created_at->diffForHumans(),
-            'nama_layanan' => $nama_layanan,
-            'instansi' => $namaInstansi,
-
-        ]);
     }
 
     public function update(Request $request, $id)
@@ -219,10 +273,10 @@ class DashboardUserController extends Controller
                 // Update gender count
                 if ($uniqueGender == 'Laki-Laki') {
                     $totalMale++;
-                } else {
+                }
+                if ($uniqueGender == 'Perempuan') {
                     $totalFemale++;
                 }
-
                 // Update total questions
                 $totalQuestions += 9; // Assuming each antrian has 9 questions
             }

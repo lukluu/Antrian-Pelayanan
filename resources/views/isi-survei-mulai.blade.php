@@ -23,23 +23,21 @@
 <body class="bg-gray-100">
     <div class="min-height-400 bg-primary opacity-10 position-absolute w-100"></div>
     <div class="container position-sticky z-index-sticky top-0">
-        <div class="row">
+        <div class="row gap-3">
             <div class="col-12 mb-5">
                 <nav class="navbar navbar-expand-lg bg-white top-0 z-index-3 shadow position-absolute mt-4 start-0 end-0 mx-4">
-                    <!-- Back button -->
-                    <div class="">
+                    <div class="d-flex flex-nowrap align-items-center">
                         <a href="/survei/isi-survei" class="text-dark text-2xl"><i class="bi bi-arrow-left"></i></a>
-                    </div>
-                    <div class="container-fluid py-3">
-                        <!-- Marquee -->
-                        <marquee behavior="scroll" direction="left" scrollamount="10">
-                            <span class="text-primary h3 mx-4">Terima kasih telah menggunakan layanan kami!</span>
-                            <span class="text-primary h3 mx-4">Jangan lupa untuk mengisi survei kunjungan Anda.</span>
-                        </marquee>
+                        <div class="container-fluid py-3">
+                            <!-- Marquee -->
+                            <marquee behavior="scroll" direction="left" scrollamount="10">
+                                <span class="text-primary h3 mx-4">Terima kasih telah menggunakan layanan kami!</span>
+                                <span class="text-primary h3 mx-4">Jangan lupa untuk mengisi survei kunjungan Anda.</span>
+                            </marquee>
+                        </div>
                     </div>
                 </nav>
             </div>
-
             <div class="container-fluid mt-5">
                 <div class="modal-body mb-3">
                     <div class="bg-light p-4 rounded">
@@ -69,6 +67,7 @@
                                             <small class="text-bolder">{{ $q->pertanyaan }}</small> <!-- Perbaiki $q->unsur menjadi $q->pertanyaan -->
                                         </div>
                                         <div class="col-auto ms-auto">
+                                            <small>Buruk</small>
                                             <input type="hidden" value="{{ $antrian_id }}" name="antrian_id">
                                             <input type="hidden" value="1" name="survei_status">
                                             @for($i = 1; $i <= 4; $i++) <div class="form-check form-check-inline">
@@ -76,6 +75,7 @@
                                                 <label class="form-check-label" for="skor{{ $loop->index }}_{{ $i }}">{{ $i }}</label>
                                         </div>
                                         @endfor
+                                        <small>Sangat Baik</small>
                                     </div>
                                 </div>
                             </div>

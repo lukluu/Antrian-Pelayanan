@@ -60,7 +60,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name" class="form-control-label">Kode Antrian</label>
+                                <label for="name" class="form-control-label">Kode Instansi</label>
                                 <input value="{{ old('kode', $instansi->kode) }}" class="form-control @error('kode') is-invalid @enderror" type="text" id="kode" name="kode">
                                 @error('kode')
                                 <div class="invalid-feedback">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="sektor" class="form-control-label">Sektor</label>
+                                <label for="sektor" class="form-control-label">Zona</label>
                                 <select class="form-select" name="sektor" id="sektro">
                                     @for ($i = 1; $i <= 4; $i++) <option value="{{ $i }}" {{ $instansi->sektor == $i ? 'selected' : '' }}>{{ $i }}</option>
                                         @endfor

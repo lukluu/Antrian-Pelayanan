@@ -26,8 +26,8 @@
                 </a>
             </div>
             <div class="card-header pb-0">
-                <div class="d-flex align-items-center">
-                    <p class="mb-0">Tambah Outlet</p>
+                <div class="d-flex justify-content-center">
+                    <h3 class="mb-0 text-center">Tambah Outlet</h3>
                 </div>
             </div>
             <form action="/dashboard/data-instansi/tambah-instansi" method="post">
@@ -58,19 +58,9 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="example-select" class="form-control-label">Kode</label>
-                            <div class="input-group">
-                                <select class="form-control" id="example-select" name="kode">
-                                    @foreach(range('A', 'Z') as $huruf)
-                                    @if (!in_array($huruf, $kodes))
-                                    <option value="{{ $huruf }}">{{ $huruf }}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-
-                                <button class="badge btn-outline-secondary border-0" type="button" id="toggleDropdown">
-                                    <i class="bi bi-chevron-down"></i>
-                                </button>
+                            <div class="form-group">
+                                <label for="name" class="form-control-label">Kode Instansi</label>
+                                <input value="{{ old('kode') }}" class="form-control @error('kode') is-invalid @enderror" type="text" id="kode" name="kode">
                                 @error('kode')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -81,7 +71,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="example-text-input" class="form-control-label">Pilih Staff</label>
-                                <select class="form-control" id="example-select" name="user_id">
+                                <select class="form-select" id="example-select" name="user_id">
+                                    <option value="">Pilih Staf</option>
                                     @foreach($stafs as $staf)
                                     @if($loop->index === 0)
                                     @continue
@@ -94,6 +85,16 @@
                                     {{ $message }}
                                 </div>
                                 @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sektor" class="form-control-label">Zona</label>
+                                <select class="form-select" name="sektor" id="sektro">
+                                    <option value="">Pilih Zona</option>
+                                    @for ($i = 1; $i <= 4; $i++) <option value="{{ $i }}">Zona {{ $i }}</option>
+                                        @endfor
+                                </select>
                             </div>
                         </div>
                         <hr class="horizontal dark">

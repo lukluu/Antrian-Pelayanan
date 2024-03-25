@@ -59,6 +59,7 @@
             @else
             <a href="/login" class="nav-link {{ Request::is('login') ? 'active' : '' }} navbar-brand">Login</a>
             @endauth
+            <a href="/layar/1/sebelumnya" class="nav-link {{ Request::is('register') ? 'active' : '' }} navbar-brand">Layar</a>
         </div>
     </nav>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -74,22 +75,23 @@
             </div>
         </div>
     </div>
-    <div class="container text-center centered-text">
-        <div class="row ">
-            <div class="col-12">
-                <a href="/ambil-antrian" class="badge filter bg-gradient-info py-3 px-5  display-1 text-decoration-none" data-color="info" onclick="sidebarColor(this)">
-                    <h1 class="">
-                        Pilih Pelayanan
-                    </h1>
+    <div class="container text-center centered-text mx-sm-5">
+        <div class="row gap-3 d-flex justify-content-center">
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <a href="/ambil-antrian" class="badge filter bg-gradient-info py-3 px-5 rounded-3 display-1 text-decoration-none d-flex justify-content-center" data-color="info" onclick="sidebarColor(this)">
+                    <h1 class="flex-fill">Ambil Antrian</h1>
+                </a>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-12">
+                <a href="/survei/isi-survei" class="badge filter bg-gradient-info py-3 px-5 rounded-3 display-1 text-decoration-none d-flex justify-content-center" data-color="info" onclick="sidebarColor(this)">
+                    <h1 class="flex-fill">Isi Survei</h1>
                 </a>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-
-            </div>
-        </div>
     </div>
+
+
+
 
 </body>
 <script>

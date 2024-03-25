@@ -85,11 +85,10 @@
                         <div class="card-header pb-0">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-auto">
-                                    <a href="/user/dashboard" class="btn btn-danger btn-sm">Kembali</a>
+                                    <a href="/user/dashboard/filter?layanan={{$layananId}}" class="btn btn-danger btn-sm">Kembali</a>
                                 </div>
                             </div>
                         </div>
-
                         <form action="/user/dashboard/data-melayani/{{$id}}" method="post">
                             @csrf
                             @method('PUT')

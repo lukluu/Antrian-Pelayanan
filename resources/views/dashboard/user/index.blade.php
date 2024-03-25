@@ -31,14 +31,15 @@
                             </thead>
                             <tbody>
                                 @foreach($users as $user)
-                                @if($loop->index === 0)
-                                @continue
-                                @endif
                                 <tr>
-                                    <td>{{ $loop->iteration-1 }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->username }}</td>
+                                    @if($user->instansi)
                                     <td>{{ $user->instansi->name }}</td>
+                                    @else
+                                    <td>-</td>
+                                    @endif
                                     <td>{{ $user->role }}</td>
                                     <td>
                                         <div class="nav-wrapper position-relative end-0 d-flex justify-content-center">

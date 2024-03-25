@@ -23,7 +23,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Instansi</th>
-                                    <th>Sektor</th>
+                                    <th>Zona</th>
                                     <th>Code</th>
                                     <th>Staf</th>
                                     <th>Aktif</th>
@@ -35,7 +35,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $instansi->name }}</td>
-                                    <td>Sektor {{ $instansi->sektor }}</td>
+                                    <td>Zona {{ $instansi->sektor }}</td>
                                     <td>{{ $instansi->kode }}</td>
                                     @if($instansi->User)
                                     <td>{{ $instansi->user['name'] }}</td>

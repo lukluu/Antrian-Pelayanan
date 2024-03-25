@@ -63,6 +63,7 @@ class OutletController extends Controller
                 'syarat3' => $outlet->syarat3,
                 'syarat4' => $outlet->syarat4,
                 'syarat5' => $outlet->syarat5,
+                'status' => $outlet->status,
             ];
         }
         return view('dashboard.outlet.detail', [
@@ -180,9 +181,9 @@ class OutletController extends Controller
             'nama_kepanjangan' => 'max:255',
             'kode' => 'required', //harus beda
             'user_id' => 'required',
+            'sektor' => 'required',
         ]);
         Instansi::create($validatedData);
-
         return redirect('dashboard/data-instansi')->with('success', 'Berhasil Ditambahkan!');
     }
 
@@ -236,6 +237,15 @@ class OutletController extends Controller
         $aktif = $request->aktif; // Ambil nilai aktif dari request
 
         $instansi->update(['aktif' => $aktif]); // Update status aktif instansi
+
+        return response()->json(['message' => 'Status aktif instansi berhasil diperbarui']);
+    }
+    public function updateAktifOutlet(Request $request, $id)
+    {
+        $layanan = Outlet::findOrFail($id);
+        $aktif = $request->status; // Ambil nilai aktif dari request
+
+        $layanan->update(['status' => $aktif]); // Update status aktif instansi
 
         return response()->json(['message' => 'Status aktif instansi berhasil diperbarui']);
     }

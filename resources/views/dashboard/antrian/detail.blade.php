@@ -8,18 +8,17 @@
                     <i class="bi bi-arrow-left"></i>
                 </a>
             </div>
-            <div class="card-header pb-0">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-auto">
-                        <a href="/dashboard/data-antrian" class="btn btn-danger btn-sm">Kembali</a>
-                    </div>
-                </div>
-            </div>
             <div class="card-body">
                 <div class="row">
                     <p class="col-sm-4 col-form-label">Keterangan</p>
                     <div class="col-sm-8">
                         <small class="col-form-label text-center">: {{ $antrian->outlet->nama_layanan }}</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-sm-4 col-form-label">Instansi</p>
+                    <div class="col-sm-8">
+                        <small class="col-form-label text-center">: {{ $antrian->outlet->instansi->name }}</small>
                     </div>
                 </div>
                 <div class="row">

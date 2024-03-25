@@ -45,6 +45,11 @@
                             <button type="button" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#modal-{{ $layanan['id'] }}"><i class="bi bi-pencil-fill"></i>Edit</button>
                         </form>
                     </div>
+                    <div class="aktif">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="aktifSwitch-{{ $layanan['id'] }}" onchange="updateAktif(this)" data-layanan-id="{{ $layanan['id'] }}" {{ $layanan['status'] == 1 ? 'checked' : '' }}>
+                        </div>
+                    </div>
                     <!-- modal edit -->
                     <div class="modal fade" id="modal-{{ $layanan['id'] }}" tabindex="-1" aria-labelledby="modal-{{ $layanan['id'] }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -215,6 +220,37 @@
                     document.getElementById("hapus-layanan").submit();
                 }
             });
+        }
+
+        function updateAktif(checkbox) {
+            let aktif = checkbox.checked ? 1 : 0;
+            let layananId = checkbox.getAttribute('data-layanan-id');
+
+            fetch(`/outlet/${layananId}/update-aktif`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        status: aktif
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle response data if needed
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                    // Jika terjadi kesalahan, kembalikan status checkbox ke sebelumnya
+                    checkbox.checked = !checkbox.checked;
+                });
         }
     </script>
     @include('sweetalert::alert')

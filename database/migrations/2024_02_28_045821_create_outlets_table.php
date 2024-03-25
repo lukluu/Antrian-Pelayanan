@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('syarat3')->nullable();
             $table->string('syarat4')->nullable();
             $table->string('syarat5')->nullable();
+            $table->string('syarat6')->nullable();
+            $table->string('syarat7')->nullable();
+            $table->string('syarat8')->nullable();
+            $table->string('syarat9')->nullable();
+            $table->string('syarat10')->nullable();
+            $table->string('status')->default(1);
             $table->foreignId('instansi_id')->nullable();
             $table->timestamps();
         });

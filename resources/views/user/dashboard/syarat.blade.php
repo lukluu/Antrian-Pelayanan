@@ -73,11 +73,6 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Layanan</th>
-                                                    <th>Syarat 1</th>
-                                                    <th>Syarat 2</th>
-                                                    <th>Syarat 3</th>
-                                                    <th>Syarat 4</th>
-                                                    <th>Syarat 5</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -86,11 +81,6 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->nama_layanan }}</td>
-                                                    <td>{{ $item->syarat1 }}</td>
-                                                    <td>{{ $item->syarat2 }}</td>
-                                                    <td>{{ $item->syarat3 }}</td>
-                                                    <td>{{ $item->syarat4 }}</td>
-                                                    <td>{{ $item->syarat5 }}</td>
                                                     <td>
                                                         <a href="/user/dashboard/syarat-layanan/edit/{{ $item->id }}" class="btn btn-primary btn-sm">
                                                             <i class="bi bi-pencil-square"></i>

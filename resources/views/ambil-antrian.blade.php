@@ -2,7 +2,7 @@
 
 <style>
     .active .aha {
-        background-color: slategrey !important;
+        background-color: #715EE5 !important;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
         color: white;
         border: white 1px solid;
@@ -59,13 +59,24 @@
             /* Atur ukuran font menjadi 1.25rem untuk perangkat berukuran hp */
         }
     }
+
+    .bgdiv {
+        background-image: url('{{ asset("img/bg/bg.svg") }}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        width: 100%;
+        position: relative;
+        padding: 0;
+        margin: 0;
+    }
 </style>
 
-<body class="g-sidenav-show bg-primary">
+<body class="bgdiv">
+    <div class="">
 
-    <!-- <div class="min-height-300 bg-primary position-absolute w-100"></div> -->
-    <div class="bg-primary">
-        <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
@@ -77,7 +88,7 @@
         </nav>
         <div class="card shadow-lg mx-4 d-flex flex-row" style="border-radius: 0;">
             <div class="card-header p-3"> <!-- Gunakan card header untuk menempatkan tombol -->
-                <a href="/" class="btn btn-secondary mt-2" style="margin-right: auto;">
+                <a href="/" class="btn btn-primary mt-2" style="margin-right: auto;">
                     <i class="bi bi-arrow-left"></i>
                 </a>
             </div>
@@ -96,28 +107,28 @@
                 <a href="/ambil-antrian?sektor=1" class="col-3 mb-3 col-sm-3 text-black card-link @if(request('sektor') == 1) active @endif">
                     <div class="blur aha border-radius-lg p-3">
                         <div class="card-body text-center">
-                            <small class="text-bolder">Sektor 1</small>
+                            <small class="text-bolder">Zona 1</small>
                         </div>
                     </div>
                 </a>
                 <a href="/ambil-antrian?sektor=2" class="col-3 mb-3 col-sm-3 text-black card-link @if(request('sektor') == 2) active @endif">
                     <div class="blur aha border-radius-lg p-3">
                         <div class="card-body text-center d-flex justify-content-center">
-                            <small class="text-bolder">Sektor 2</small>
+                            <small class="text-bolder">Zona 2</small>
                         </div>
                     </div>
                 </a>
                 <a href="/ambil-antrian?sektor=3" class="col-3 mb-3 col-sm-3 text-black card-link @if(request('sektor') == 3) active @endif">
                     <div class="blur aha border-radius-lg p-3">
                         <div class="card-body text-center">
-                            <small class="text-bolder">Sektor 3</small>
+                            <small class="text-bolder">Zona 3</small>
                         </div>
                     </div>
                 </a>
                 <a href="/ambil-antrian?sektor=4" class="col-3 mb-3 col-sm-3 text-black card-link @if(request('sektor') == 4) active @endif">
                     <div class="blur aha border-radius-lg p-3">
                         <div class="card-body text-center">
-                            <small class="text-bolder">Sektor 4</small>
+                            <small class="text-bolder">Zona 4</small>
                         </div>
                     </div>
                 </a>
@@ -138,7 +149,7 @@
                             <div class="row d-flex align-items-center">
                                 <div class="col-3">
                                     @if($instansi->logo == null)
-                                    <img src="{{asset('img/logo-instansi/kota.png')}}" alt="" class="img-fluid">
+                                    <img src="{{asset('logo-instansi/kota.png')}}" alt="" class="img-fluid">
                                     @else
                                     <img src="{{asset('img/logo-instansi/'.$instansi->logo)}}" alt="" class="img-fluid">
                                     @endif
@@ -150,7 +161,7 @@
                                         </h6>
                                         <p class="">{{ $instansi->nama_kepanjangan }}</p>
                                         <hr class="horizontal dark m-0">
-                                        <small class="text-bolder">Sektor {{ $instansi->sektor }}</small>
+                                        <small class="text-bolder">Zona {{ $instansi->sektor }}</small>
                                     </div>
                                 </div>
                                 <div class="col-2 d-flex justify-content-end">
@@ -167,5 +178,24 @@
 
     @include('sweetalert::alert')
     @include('layouts.scripts')
+    <script>
+        let timer = 30; // Waktu dalam detik
 
+        const resetTimer = () => {
+            timer = 30;
+        };
+
+        window.addEventListener("scroll", resetTimer);
+        window.addEventListener("click", resetTimer);
+        window.addEventListener("keydown", resetTimer);
+
+        const interval = setInterval(() => {
+            timer--;
+
+            if (timer === 0) {
+                clearInterval(interval);
+                window.location.href = "/";
+            }
+        }, 1000); // Interval 1 detik
+    </script>
 </body>

@@ -15,7 +15,12 @@ class UserController extends Controller
     {
 
         $user = User::with('instansi')->get();
-
+        $user = $user->skip(1)->all();
+        // $instansi = [];
+        // foreach ($user as $key => $value) {
+        //     $instansi[] = $value->instansi->name;
+        // }
+        // dd($instansi);
         return view('dashboard.user.index', [
             'title' => 'Dashboard | Users',
             'active' => 'users',

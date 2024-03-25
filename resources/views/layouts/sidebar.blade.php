@@ -60,8 +60,34 @@
             </div>
         </div>
     </div>
-    <form action="/logout" method="post">
-        @csrf
-        <button type="submit" class="btn btn-outline-secondary btn-sm w-100 mb-3">LogOut</button>
-    </form>
+    <!-- <button type="button" class="btn btn-outline-danger btn-sm w-100 mb-3" onclick="resetNomorAntrian()">
+        Reset Nomor Antrian
+    </button> -->
 </div>
+
+<!-- <script>
+    function resetNomorAntrian() {
+        // Kirim permintaan AJAX ke endpoint reset nomor antrian
+        fetch('/reset-nomor-antrian', {
+                method: 'POST', // Metode HTTP POST
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF
+                },
+                body: JSON.stringify({}) // Tidak perlu mengirim data dalam body
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Tindakan setelah berhasil, misalnya muat ulang halaman
+                    window.location.reload();
+                } else {
+                    // Tindakan jika terjadi kesalahan, misalnya tampilkan pesan kesalahan
+                    console.error('Gagal mereset nomor antrian');
+                }
+            })
+            .catch(error => {
+                // Tangani kesalahan yang tidak terduga
+                console.error('Terjadi kesalahan:', error);
+            });
+    }
+</script> -->

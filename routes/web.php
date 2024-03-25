@@ -1,11 +1,15 @@
 <?php
 
+use App\Models\Outlet;
+
+
+
 use GuzzleHttp\Middleware;
-
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LayarController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\SurveiController;
@@ -13,8 +17,8 @@ use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\DashboardSurveiController;
 use App\Http\Controllers\DashboardAntrianController;
-use App\Models\Outlet;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -31,15 +35,18 @@ Route::put('/survei/isi-survei/{id}', [SurveiController::class, 'update']);
 Route::get('/keep-antrian/{id}', [AntrianController::class, 'show']);
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
-Route::post('/logout', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 Route::get('/register', [RegisterController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/layar/{instansiId}', [LayarController::class, 'index'])->name('layar');
+Route::get('/layar/{instansiId}/{action}', [LayarController::class, 'instansi'])->name('layar.instansi');
+
+
+
 
 
 
 Route::group(['middleware' => ['role:admin']], function () {
-
-
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/dashboard/data-instansi', [OutletController::class, 'index']);
     Route::get('/dashboard/data-antrian', [DashboardAntrianController::class, 'index']);
@@ -62,11 +69,22 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/dashboard/antrian/detail/{id}', [DashboardAntrianController::class, 'detail']);
     Route::get('/dashboard/profile/', [UserController::class, 'profileAdmin']);
     Route::put('/dashboord/profile/edit/{id}', [UserController::class, 'editProfileAdmin'])->name('dashboard.profile.edit');
+    Route::get('/dashboard/data-antrian/cetak', [DashboardAntrianController::class, 'cetak']);
+    Route::get('/dashboard/data-antrian/cetak/show', [DashboardAntrianController::class, 'showCetak']);
+    Route::get('/dashboard/data-antrian/cetak/layanan/{id}', [DashboardAntrianController::class, 'layanan']);
+    Route::get('/dashboard/data-antrian/cetak/instansi', [DashboardAntrianController::class, 'instansi'])->name('dashboard.data-antrian.cetak.instansi');
+    Route::get('/dashboard/data-survei/cetak-pdf', [DashboardSurveiController::class, 'cetakPdf'])->name('cetak.pdf');
+    Route::get('/dashboard/data-survei/cetak-excel', [DashboardSurveiController::class, 'cetakExcel'])->name('cetak.excel');
+    Route::get('/dashboard/data-survei', [DashboardSurveiController::class, 'index']);
+    Route::get('/dashboard/data-survei/show', [DashboardSurveiController::class, 'show']);
+    Route::get('/dashboard/data-survei/instansi', [DashboardSurveiController::class, 'instansi'])->name('dashboard.data-survei.instansi');
+    Route::get('/dashboard/data-survei/layanan/{id}', [DashboardSurveiController::class, 'layanan']);
+    Route::put('/instansi/{id}/update-aktif', [OutletController::class, 'updateAktif'])->name('instansi.update-aktif');
+    Route::put('/outlet/{id}/update-aktif', [OutletController::class, 'updateAktifOutlet'])->name('outlet.update-aktif');
+    Route::post('/reset-nomor-antrian', [AntrianController::class, 'resetNomorAntrian'])->name('reset.nomor.antrian');
 });
 
 Route::group(['middleware' => ['role:user']], function () {
-
-
     Route::get('/user/dashboard', [DashboardUserController::class, 'index']);
     Route::get('/user/dashboard/terlayani', [DashboardUserController::class, 'terlayani']);
     Route::get('/dashboard/terlayani/filter', [DashboardUserController::class, 'terlayani']);
@@ -89,6 +107,5 @@ Route::group(['middleware' => ['role:user']], function () {
     Route::get('/user/dashboard/data-terlayani/cetak', [DashboardUserController::class, 'showCetak']);
     Route::get('/user/dashboard/data-terlayani/mulai-cetak/', [DashboardUserController::class, 'mulaiCetak']);
 
-
-    Route::put('/instansi/{id}/update-aktif', [OutletController::class, 'updateAktif'])->name('instansi.update-aktif');
+    Route::get('/user/dashboard/filter', [DashboardUserController::class, 'filterAntrian'])->name('user.dashboard.filter');
 });

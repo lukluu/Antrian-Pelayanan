@@ -1,14 +1,23 @@
 @include('layouts.head')
 
-<!-- <style>
-    .swal2-cancel {
-        display: none !important;
+<style>
+    .bgdiv {
+        background-image: url('{{ asset("img/bg/bg.jpg") }}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        width: 100%;
+        position: relative;
+        padding: 0;
+        margin: 0;
     }
-</style> -->
+</style>
 
-<body class="g-sidenav-show bg-primary">
+<body class="g-sidenav-show bgdiv">
     <!-- <div class="min-height-300 bg-primary position-absolute w-100"></div> -->
-    <div class="bg-primary">
+    <div class="">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
             <div class="container-fluid py-1 px-3">
@@ -31,7 +40,7 @@
             <div class="card-body p-3">
                 <div class="row gx-4">
                     <div class="col d-flex align-items-center">
-                        <a href="/ambil-antrian" class="btn btn-secondary mt-3">
+                        <a href="/ambil-antrian" class="btn btn-primary mt-3">
                             <i class="bi bi-arrow-left"></i>
                         </a>
                         <div class="col-10 ms-2">
@@ -42,7 +51,7 @@
                     </div>
                     <div class="col-auto ms-auto d-flex align-items-center mt-1">
                         <small class="h5 text-dark text-bolder">
-                            Sektor {{ $sektor }}
+                            Zona {{ $sektor }}
                         </small>
                     </div>
                 </div>
@@ -52,14 +61,18 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                @foreach($pelayanans as $pelayanan)
+                @php
+                $iterationNumber = 1; // Inisialisasi nomor iterasi
+                @endphp
+                @foreach($pelayanans as $index=> $pelayanan)
+                @if($pelayanan->status == 1)
                 <div class="col-xl-3 col-sm-6 mb-3" role="button" data-bs-toggle="modal" data-bs-target="#modal{{ $pelayanan->id }}">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center">
-                                    <div style="background-color: #6c757d; border-radius: 50%; padding: 12px; height: 50px; width: 50px;" class="text-center d-flex justify-content-center align-items-center">
-                                        <span style="font-size: 2.5em; color: #fff;">{{$loop->iteration}}</span>
+                                    <div style=" border-radius: 50%; padding: 12px; height: 50px; width: 50px;" class="bg bg-primary text-center d-flex justify-content-center align-items-center">
+                                        <span style="font-size: 2.5em; color: #fff;">{{$iterationNumber++}}</span>
                                     </div>
                                 </div>
 
@@ -83,7 +96,7 @@
                             <div class="modal-body ">
                                 <div class="modal-body">
                                     <div class="bg-light p-4 rounded">
-                                        <label class="text-sm">Silahkan Siapkan Syarat Pelayanan, Pastikan Anda Memiliki</label>
+                                        <label class="text-sm">Silahkan Siapkan Syarat Pelayanan Berikut: </label>
                                         <div class="d-flex flex-column align-items-start">
                                             <small class="text-muted">1. {{ $pelayanan->syarat1 }}</small>
                                             @if($pelayanan->syarat2 != null)
@@ -129,12 +142,11 @@
                         </div>
                     </div>
                 </div>
-
+                @endif
                 @endforeach
             </div>
         </div>
     </div>
-
     @include('sweetalert::alert')
     @include('layouts.scripts')
 
@@ -156,6 +168,24 @@
                 location.reload();
             });
         });
+
+        let timer = 40; // Waktu dalam detik
+        const resetTimer = () => {
+            timer = 40;
+        };
+
+        window.addEventListener("scroll", resetTimer);
+        window.addEventListener("click", resetTimer);
+        window.addEventListener("keydown", resetTimer);
+
+        const interval = setInterval(() => {
+            timer--;
+
+            if (timer === 0) {
+                clearInterval(interval);
+                window.location.href = "/";
+            }
+        }, 1000); // Interval 1 detik
     </script>
 
 </body>
